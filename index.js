@@ -4,6 +4,12 @@ import bodyParser from "body-parser"
 import cors from "cors"
 import dotenv from "dotenv"
 import route from "./routes/userRoute.js"
+import route from "./routes/teacherRoute.js"
+import route from "./routes/courseRoute.js"
+import route from "./routes/enrollmentRoute.js"
+import route from "./routes/lessonRoute.js"
+import route from "./routes/quizRoute.js"
+
 
 const app = express();
 app.use(express.json());
@@ -25,3 +31,9 @@ mongoose.connect(MONGOURL).then(() => {
 
 
 app.use("/api/user", route);
+app.use("/api/teacher", route);
+app.use("/api/course", route);
+app.use("/api/enrollment", route);
+app.use("/api/lesson", route);
+app.use("/api/quiz", route);
+
