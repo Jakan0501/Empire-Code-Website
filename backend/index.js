@@ -5,13 +5,10 @@ import cors from "cors"
 import dotenv from "dotenv"
 import userRoute from "./routes/userRoute.js"
 import teacherRoute from "./routes/teacherRoute.js"
-
-/*
 import courseRoute from "./routes/courseRoute.js"
 import enrollmentRoute from "./routes/enrollmentRoute.js"
 import lessonRoute from "./routes/lessonRoute.js"
 import quizRoute from "./routes/quizRoute.js"
-*/
 
 
 const app = express();
@@ -33,9 +30,7 @@ mongoose.connect(MONGOURL).then(() => {
 
 app.use("/api/user", userRoute);
 app.use("/api/teacher", teacherRoute);
-/*
 app.use("/api/course", courseRoute);
 app.use("/api/enrollment", enrollmentRoute);
 app.use("/api/lesson", lessonRoute);
 app.use("/api/quiz", quizRoute);
-*/
