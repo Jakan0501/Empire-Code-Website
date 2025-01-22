@@ -3,9 +3,9 @@ import {getTeachers, createTeacher, updateTeacher, deleteTeacher} from '../contr
 
 const router = express.Router()
 
-router.get('/', getTeachers)
-router.post('/', createTeacher)
-router.put('/:id', updateTeacher)
-router.delete('/:id', deleteTeacher)
+router.get('/get', getTeachers)
+router.post('/create', createTeacher)
+router.put('/update/:id', updateTeacher)
+router.delete('/delete/:id', deleteTeacher)
 
 export default router;

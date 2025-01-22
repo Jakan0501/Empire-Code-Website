@@ -3,9 +3,9 @@ import {getLessons, createLesson, updateLesson, deleteLesson} from '../controlle
 
 const router = express.Router()
 
-router.get('/', getLessons)
-router.post('/', createLesson)
-router.put('/:id', updateLesson)
-router.delete('/:id', deleteLesson)
+router.get('/get', getLessons)
+router.post('/post', createLesson)
+router.put('/update/:id', updateLesson)
+router.delete('/delete/:id', deleteLesson)
 
 export default router;

@@ -16,7 +16,7 @@ export const getLessons = async(req, res) => {
 export const createLesson = async(req, res) => {
     const lesson = req.body;
 
-    if (!lesson.name || !lesson.price ){
+    if (!lesson.lessonTitle){
         return res.status(400).json({ success:false, message: 'Please provide all fields'})
     }
     const newLesson = new Lesson(lesson)

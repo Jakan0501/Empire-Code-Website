@@ -16,7 +16,7 @@ export const getTeachers = async(req, res) => {
 export const createTeacher = async(req, res) => {
     const teacher = req.body;
 
-    if (!teacher.name || !teacher.price ){
+    if (!teacher.teacherName || !teacher.teacherPhone ||!teacher.teacherEmail){
         return res.status(400).json({ success:false, message: 'Please provide all fields'})
     }
     const newTeacher = new Teacher(teacher)

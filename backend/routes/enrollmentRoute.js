@@ -3,9 +3,9 @@ import {getEnrollments, createEnrollment, updateEnrollment, deleteEnrollment} fr
 
 const router = express.Router()
 
-router.get('/', getEnrollments)
-router.post('/', createEnrollment)
-router.put('/:id', updateEnrollment)
-router.delete('/:id', deleteEnrollment)
+router.get('/get', getEnrollments)
+router.post('/create', createEnrollment)
+router.put('/update/:id', updateEnrollment)
+router.delete('/delete/:id', deleteEnrollment)
 
 export default router;

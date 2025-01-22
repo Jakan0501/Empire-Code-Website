@@ -16,11 +16,6 @@ export const getEnrollments = async(req, res) => {
 export const createEnrollment = async(req, res) => {
     const enrollment = req.body;
 
-    if (!enrollment.name || !enrollment.price ){
-        return res.status(400).json({ success:false, message: 'Please provide all fields'})
-    }
-    const newEnrollment = new Enrollment(enrollment)
-
     try{
         await newEnrollment.save();
         res.status(201).json({ success: true, data: newEnrollment})

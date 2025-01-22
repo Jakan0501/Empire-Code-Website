@@ -16,7 +16,7 @@ export const getQuizs = async(req, res) => {
 export const createQuiz = async(req, res) => {
     const quiz = req.body;
 
-    if (!quiz.name || !quiz.price ){
+    if (!quiz.quizQuestion || !quiz.quizAnswer || !quiz.quizResult){
         return res.status(400).json({ success:false, message: 'Please provide all fields'})
     }
     const newQuiz = new Quiz(quiz)
