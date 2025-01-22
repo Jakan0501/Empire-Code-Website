@@ -1,4 +1,4 @@
-import Quiz from '../models/quizModel.js'
+import User from '../models/quizModel.js';
 import mongoose from 'mongoose'
 
 
