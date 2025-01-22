@@ -34,4 +34,3 @@ app.use("/api/course", courseRoute);
 app.use("/api/enrollment", enrollmentRoute);
 app.use("/api/lesson", lessonRoute);
 app.use("/api/quiz", quizRoute);
-

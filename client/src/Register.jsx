@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 function Register() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [userEmail, setEmail] = useState('');
+    const [userPassword, setPassword] = useState('');
     const [successMessage, setSuccessMessage] = useState(''); // State for success message
     const [errorMessage, setErrorMessage] = useState(''); // State for error message
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:8000/api/user/register', { email, password })
+        axios.post('http://localhost:8000/api/user/register', { userEmail, userPassword })
             .then(result => {
                 console.log(result);
                 setSuccessMessage('Registration successful!'); // Set success message

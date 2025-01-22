@@ -3,8 +3,8 @@ import User from '../models/userModel.js';
 export const create = async (req, res) => {
     try {
         const userData = new User(req.body);
-        const {email}= userData;
-        const userExit = await User.findOne({email});
+        const {userEmail}= userData;
+        const userExit = await User.findOne({userEmail});
         if (userExit){
             return res.status(400).json({message:"User already exist"});
         }
@@ -68,19 +68,18 @@ export const deleteUser = async (req, res) => {
 
 export const register = async (req, res) => {
     try {
-        const { email, password, name } = req.body;
+        const { userEmail, userPassword } = req.body;
 
         // Check if user already exists
-        const userExists = await User.findOne({ email });
+        const userExists = await User.findOne({ userEmail });
         if (userExists) {
             return res.status(400).json({ message: "User already exists" });
         }
 
-        // Create a new user without hashing the password
+        // Create a new user without hashing the userPassword
         const userData = new User({
-            name,
-            email,
-            password, // Store the password as is
+            userEmail,
+            userPassword, // Store the userPassword as is
         });
 
         const savedUser = await userData.save();
@@ -94,16 +93,16 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { userEmail, userPassword } = req.body;
 
         // Check if user exists
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ userEmail });
         if (!user) {
             return res.status(400).json({ message: "Invalid credentials" });
         }
 
-        // Check if password matches
-        if (user.password !== password) {
+        // Check if userPassword matches
+        if (user.userPassword !== userPassword) {
             return res.status(400).json({ message: "Invalid credentials" });
         }
 
