@@ -1401,3 +1401,57 @@ label {
    display: inline-block; /* Allow width to be set */
    width: 100px; /* Set a fixed width if needed */
  }
+
+
+
+ .home-grid .box-container {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr)); /* Responsive grid */
+   gap: 2rem; /* Space between boxes */
+   justify-content: center; /* Center the grid */
+   padding: 2rem; /* Optional: Add padding around the container */
+}
+
+.home-grid .box-container .box {
+   background-color: var(--white);
+   border-radius: .5rem;
+   width: calc(30rem * 1.1); /* 10% larger width */
+   height: calc(30rem * 1.1); /* 10% larger height to maintain square shape */
+   display: flex;
+   flex-direction: column; /* Stack children vertically */
+   justify-content: center; /* Center content vertically */
+   align-items: center; /* Center items horizontally */
+   position: relative; /* For positioning images */
+}
+
+.home-grid .box-container .box img {
+   max-width: 100%; /* Responsive images */
+   max-height: 150px; /* Limit image height */
+   object-fit: cover; /* Cover the box area */
+   border-radius: .5rem; /* Rounded corners for images */
+   margin: 1rem 0; /* Space above and below the image */
+}
+
+.home-grid .box-container .box .title {
+   font-size: 2rem;
+   color: var(--black);
+   text-transform: capitalize;
+   margin: 0; /* Remove margin to keep centered */
+   text-align: center; /* Center the title text */
+}
+
+.home-grid .box-container .inline-btn {
+   background-color: var(--main-color);
+   color: #fff;
+   border-radius: .5rem;
+   padding: 1rem 2rem;
+   font-size: 1.5rem;
+   cursor: pointer;
+   transition: background-color 0.3s;
+   margin-top: auto; /* Push button to the bottom */
+   text-align: center; /* Center button text */
+}
+
+.home-grid .box-container .inline-btn:hover {
+   background-color: var(--black);
+}
