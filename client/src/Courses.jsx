@@ -1,162 +1,114 @@
 import React from 'react';
+import pfpKevin from "./assets/images/pic-kevin.jpg"; 
+import pfpLucas from "./assets/images/pic-lucas.jpg"; 
+import pfpIrfan from "./assets/images/pic-irfan.jpg"; 
+import pic_chatbot from "./assets/images/pic-chatbot.jpeg";
+import pic_AIimage from "./assets/images/pic-AI_image.jpg";
+import pic_classifier from "./assets/images/pic-classifier.jpeg";
+import pic_search from "./assets/images/pic-search.jpeg";
+import pic_filter from "./assets/images/pic-filter.png";
+import pic_rps from "./assets/images/pic-rps.jpeg";
 
 
 
 const Courses = () => {
   return (
-    <>
+    <section className="courses">
+      <h1 className="heading">Our Courses</h1>
 
+      <div className="box-container">
 
-      <section className="courses">
-        <h1 className="heading">our courses</h1>
-
-        <div className="box-container">
-          <div className="box">
-            <div className="tutor">
-              <img src="images/pic-2.jpg" alt="" />
-              <div className="info">
-                <h3>Lucas Do</h3>
-                <span>21-10-2022</span>
-              </div>
+        <div className="box">
+          <div className="tutor">
+            <img src={pfpKevin} alt="Kevin Tong" />
+            <div className="info">
+              <h3>Kevin Tong</h3>
+              <span>21-10-2022</span>
             </div>
-            <div className="thumb">
-              <img src=" " alt="" />
-              <span>10 videos</span>
-            </div>
-            <h3 className="title">complete HTML tutorial</h3>
-            <a href="playlist.html" className="inline-btn">view playlist</a>
           </div>
-
-          <div className="box">
-            <div className="tutor">
-              <img src="images/pic-3.jpg" alt="" />
-              <div className="info">
-                <h3>Lucas Do</h3>
-                <span>21-10-2022</span>
-              </div>
-            </div>
-            <div className="thumb">
-              <img src="images/thumb-2.png" alt="" />
-              <span>10 videos</span>
-            </div>
-            <h3 className="title">complete CSS tutorial</h3>
-            <a href="playlist.html" className="inline-btn">view playlist</a>
+          <div className="thumb">
+            <img src={pic_chatbot} alt="Course Thumbnail" />
           </div>
-
-          <div className="box">
-            <div className="tutor">
-              <img src="images/pic-4.jpg" alt="" />
-              <div className="info">
-                <h3>Lucas Do</h3>
-                <span>21-10-2022</span>
-              </div>
-            </div>
-            <div className="thumb">
-              <img src="images/thumb-3.png" alt="" />
-              <span>10 videos</span>
-            </div>
-            <h3 className="title">complete JS tutorial</h3>
-            <a href="playlist.html" className="inline-btn">view playlist</a>
-          </div>
-
-          <div className="box">
-            <div className="tutor">
-              <img src="images/pic-5.jpg" alt="" />
-              <div className="info">
-                <h3>Lucas Do</h3>
-                <span>21-10-2022</span>
-              </div>
-            </div>
-            <div className="thumb">
-              <img src="images/thumb-4.png" alt="" />
-              <span>10 videos</span>
-            </div>
-            <h3 className="title">complete Bootstrap tutorial</h3>
-            <a href="playlist.html" className="inline-btn">view playlist</a>
-          </div>
-
-          <div className="box">
-            <div className="tutor">
-              <img src="images/pic-6.jpg" alt="" />
-              <div className="info">
-                <h3>Lucas Do</h3>
-                <span>21-10-2022</span>
-              </div>
-            </div>
-            <div className="thumb">
-              <img src="images/thumb-5.png" alt="" />
-              <span>10 videos</span>
-            </div>
-            <h3 className="title">complete JQuery tutorial</h3>
-            <a href="playlist.html" className="inline-btn">view playlist</a>
-          </div>
-
-          <div className="box">
-            <div className="tutor">
-              <img src="images/pic-7.jpg" alt="" />
-              <div className="info">
-                <h3>Lucas Do</h3>
-                <span>21-10-2022</span>
-              </div>
-            </div>
-            <div className="thumb">
-              <img src="images/thumb-6.png" alt="" />
-              <span>10 videos</span>
-            </div>
-            <h3 className="title">complete SASS tutorial</h3>
-            <a href="playlist.html" className="inline-btn">view playlist</a>
-          </div>
-
-          <div className="box">
-            <div className="tutor">
-              <img src="images/pic-8.jpg" alt="" />
-              <div className="info">
-                <h3>Lucas Do</h3>
-                <span>21-10-2022</span>
-              </div>
-            </div>
-            <div className="thumb">
-              <img src="images/thumb-7.png" alt="" />
-              <span>10 videos</span>
-            </div>
-            <h3 className="title">complete PHP tutorial</h3>
-            <a href="playlist.html" className="inline-btn">view playlist</a>
-          </div>
-
-          <div className="box">
-            <div className="tutor">
-              <img src="images/pic-9.jpg" alt="" />
-              <div className="info">
-                <h3>Lucas Do</h3>
-                <span>21-10-2022</span>
-              </div>
-            </div>
-            <div className="thumb">
-              <img src="images/thumb-8.png" alt="" />
-              <span>10 videos</span>
-            </div>
-            <h3 className="title">complete MySQL tutorial</h3>
-            <a href="playlist.html" className="inline-btn">view playlist</a>
-          </div>
-
-          <div className="box">
-            <div className="tutor">
-              <img src="images/pic-1.jpg" alt="" />
-              <div className="info">
-                <h3>Lucas Do</h3>
-                <span>21-10-2022</span>
-              </div>
-            </div>
-            <div className="thumb">
-              <img src="images/thumb-9.png" alt="" />
-              <span>10 videos</span>
-            </div>
-            <h3 className="title">complete React tutorial</h3>
-            <a href="playlist.html" className="inline-btn">view playlist</a>
-          </div>
+          <h3 className="title">AI Chatbot</h3>
+          <a href="playlist.html" className="inline-btn">View Course</a>
         </div>
-      </section>
-    </>
+
+        <div className="box">
+          <div className="tutor">
+            <img src={pfpKevin} alt="Kevin Tong" />
+            <div className="info">
+              <h3>Kevin Tong</h3>
+              <span>21-10-2022</span>
+            </div>
+          </div>
+          <div className="thumb">
+            <img src={pic_AIimage} alt="Course Thumbnail" />
+          </div>
+          <h3 className="title">AI Image Generator</h3>
+          <a href="playlist.html" className="inline-btn">View Course</a>
+        </div>
+
+        <div className="box">
+          <div className="tutor">
+            <img src={pfpLucas} alt="Lucas Do" />
+            <div className="info">
+              <h3>Lucas Do</h3>
+              <span>21-10-2022</span>
+            </div>
+          </div>
+          <div className="thumb">
+            <img src={pic_classifier} alt="Course Thumbnail" />
+          </div>
+          <h3 className="title">AI Image Classifier</h3>
+          <a href="playlist.html" className="inline-btn">View Course</a>
+        </div>
+
+        <div className="box">
+          <div className="tutor">
+            <img src={pfpLucas} alt="Lucas Do" />
+            <div className="info">
+              <h3>Lucas Do</h3>
+              <span>21-10-2022</span>
+            </div>
+          </div>
+          <div className="thumb">
+            <img src={pic_search} alt="Course Thumbnail" />
+          </div>
+          <h3 className="title">AI Searching Bot</h3>
+          <a href="playlist.html" className="inline-btn">View Course</a>
+        </div>
+
+        <div className="box">
+          <div className="tutor">
+            <img src={pfpKevin} alt="Kevin Tong" />
+            <div className="info">
+              <h3>Kevin Tong</h3>
+              <span>21-10-2022</span>
+            </div>
+          </div>
+          <div className="thumb">
+            <img src={pic_filter} alt="Course Thumbnail" />
+          </div>
+          <h3 className="title">AI Input Filtering System</h3>
+          <a href="playlist.html" className="inline-btn">View Course</a>
+        </div>
+
+        <div className="box">
+          <div className="tutor">
+            <img src={pfpIrfan} alt="Irfan" />
+            <div className="info">
+              <h3>Irfan</h3>
+              <span>21-10-2022</span>
+            </div>
+          </div>
+          <div className="thumb">
+            <img src={pic_rps} alt="Course Thumbnail" />
+          </div>
+          <h3 className="title">AI Rock Paper Scissors</h3>
+          <a href="playlist.html" className="inline-btn">View Course</a>
+        </div>
+      </div>
+    </section>
   );
 };
 

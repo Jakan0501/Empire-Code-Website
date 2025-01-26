@@ -1,0 +1,65 @@
+/* Adjust container styles */
+.profile-container {
+  display: flex;
+  flex-direction: column; /* Arrange the boxes in a column (top to bottom) */
+  gap: 30px; /* Add more spacing between each row */
+  width: 100%; /* Ensure it spans the full width */
+}
+
+.profile-row {
+  display: flex;
+  justify-content: space-between; /* Align label and input/button horizontally */
+  align-items: center; /* Center-align items within the row */
+  width: 100%;
+}
+
+.profile-box {
+  display: flex;
+  flex-direction: row; /* Keep label and input/button inline */
+  align-items: center;
+  justify-content: space-between; /* Space between label and input/button */
+  width: 100%; /* Ensure each box spans full width */
+  padding: 20px; /* Add padding to the box */
+  background-color: #f5f5f5; /* Add a light background color */
+  border-radius: 10px; /* Add rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  margin-bottom: 20px;
+}
+
+label {
+  flex: 1; /* Label takes up equal space */
+  font-weight: bold; /* Make the label bold */
+  font-size: 2rem; /* Increase the label font size */
+}
+
+input, span {
+  flex: 2; /* Inputs and spans take up more space */
+  margin-left: 20px; /* Increase the space between the label and input/span */
+  font-size: 1.8rem; /* Increase the font size of editable info (span/input) */
+  flex-shrink: 0; /* Prevent shrinking of input/span */
+}
+
+/* Updated button styles */
+button {
+  font-size: 1.4rem; /* Increase the font size */
+  padding: 12px 24px; /* Increase the padding */
+  width: auto; /* Let the width adjust automatically */
+  max-width: 250px; /* Ensure the button doesn't stretch too wide */
+  background-color: #007bff; /* Button background color */
+  color: white; /* Text color */
+  border: none; /* Remove default border */
+  border-radius: 10px; /* Add rounded corners */
+  cursor: pointer; /* Pointer cursor for interactivity */
+  transition: all 0.3s ease; /* Smooth transition for hover effect */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add slight shadow */
+}
+
+button:hover {
+  background-color: #0056b3; /* Darker shade for hover effect */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+}
+
+button:disabled {
+  background-color: #cccccc; /* Gray color for disabled state */
+  cursor: not-allowed; /* Show not-allowed cursor */
+}

@@ -6,6 +6,7 @@ import Login from './Login.jsx'
 import Register from './Register.jsx'
 import Courses from './Courses.jsx'
 import Profile from './Profile.jsx'
+import Quizzes from './Quizzes.jsx'
 
 import Navbar from './components/Navbar'; // Adjust the path as necessary
 import Sidebar from './components/Sidebar.jsx';
@@ -26,6 +27,7 @@ function App() {
         <Route path ='/login' element={<Login />}></Route>
         <Route path ='/courses' element={<Courses />}></Route>
         <Route path ='/profile' element={<Profile />}></Route>
+        <Route path ='/quizzes' element={<Quizzes />}></Route>
       </Routes>
     </BrowserRouter>
   )

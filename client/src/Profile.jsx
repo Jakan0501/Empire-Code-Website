@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './css/profile.css'; // Import the profile.css file
 
 const Profile = () => {
   // State to hold user information
   const [name, setName] = useState("Student Name");
   const [email, setEmail] = useState("student@example.com");
   const [password, setPassword] = useState("");
-  
+  const [phone, setPhone] = useState("");
+  const [registrationDate, setRegistrationDate] = useState(new Date().toLocaleDateString());
+
   // State to manage edit mode for each field
   const [isEditing, setIsEditing] = useState({
     name: false,
     email: false,
     password: false,
+    phone: false,
   });
 
   // Handle form submission
@@ -22,10 +26,10 @@ const Profile = () => {
       name,
       email,
       password,
+      phone,
     };
 
     try {
-      
       const response = await axios.put(`http://localhost:8000/api/user/update/${YOUR_USER_ID}`, updatedInfo, {
         headers: {
           Authorization: `Bearer YOUR_JWT_TOKEN`, // Include your JWT token here
@@ -34,7 +38,7 @@ const Profile = () => {
       
       console.log("Updated Information:", response.data);
       // Reset edit mode after submission
-      setIsEditing({ name: false, email: false, password: false });
+      setIsEditing({ name: false, email: false, password: false, phone: false });
     } catch (error) {
       console.error("Error updating information:", error);
     }
@@ -53,10 +57,10 @@ const Profile = () => {
             <p>Student</p>
           </div>
 
-          <div className="box-container">
-            {/* Name Box */}
-            <div className="box">
-              <div className="flex">
+          <div className="profile-info">
+            {/* Name Row */}
+            <div className="profile-row">
+              <div className="profile-box">
                 <label>Name:</label>
                 {isEditing.name ? (
                   <input
@@ -73,9 +77,9 @@ const Profile = () => {
               </div>
             </div>
 
-            {/* Email Box */}
-            <div className="box">
-              <div className="flex">
+            {/* Email Row */}
+            <div className="profile-row">
+              <div className="profile-box">
                 <label>Email:</label>
                 {isEditing.email ? (
                   <input
@@ -92,9 +96,9 @@ const Profile = () => {
               </div>
             </div>
 
-            {/* Password Box */}
-            <div className="box">
-              <div className="flex">
+            {/* Password Row */}
+            <div className="profile-row">
+              <div className="profile-box">
                 <label>Password:</label>
                 {isEditing.password ? (
                   <input
@@ -108,6 +112,33 @@ const Profile = () => {
                 <button onClick={() => setIsEditing({ ...isEditing, password: !isEditing.password })}>
                   {isEditing.password ? "Save" : "Edit"}
                 </button>
+              </div>
+            </div>
+
+            {/* Phone Row */}
+            <div className="profile-row">
+              <div className="profile-box">
+                <label>Phone:</label>
+                {isEditing.phone ? (
+                  <input
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                  />
+                ) : (
+                  <span>{phone}</span>
+                )}
+                <button onClick={() => setIsEditing({ ...isEditing, phone: !isEditing.phone })}>
+                  {isEditing.phone ? "Save" : "Edit"}
+                </button>
+              </div>
+            </div>
+
+            {/* Registration Date Row */}
+            <div className="profile-row">
+              <div className="profile-box">
+                <label>Registration Date:</label>
+                <span>{registrationDate}</span>
               </div>
             </div>
           </div>
