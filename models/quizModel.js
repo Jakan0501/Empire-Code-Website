@@ -11,7 +11,7 @@ const quizSchema = new mongoose.Schema({
     },
     quizResult:{
         type: String,
-        required: true
+        
     },
     lesson: { 
         type: mongoose.Schema.Types.ObjectId, 

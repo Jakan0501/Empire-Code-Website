@@ -76,23 +76,9 @@ export const fetchUsers = asyncHandler(async (req, res) => {
   res.status(200).json(users);
 });
 
-// @desc    Update a user
-// @route   PUT /api/users/:id
-// @access  Private
-export const updateUser = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id);
 
-  if (user) {
-    user.userEmail = req.body.userEmail || user.userEmail;
-    user.userPassword = req.body.userPassword || user.userPassword;
 
-    const updatedUser = await user.save();
-    res.status(200).json(updatedUser);
-  } else {
-    res.status(404);
-    throw new Error('User not found');
-  }
-});
+
 
 // @desc    Delete a user
 // @route   DELETE /api/users/:id
@@ -109,6 +95,8 @@ export const deleteUser = asyncHandler(async (req, res) => {
   }
 });
 
+
+
 // @desc    Get user profile
 // @route   GET /api/users/profile
 // @access  Private
@@ -119,9 +107,38 @@ export const getUserProfile = asyncHandler(async (req, res) => {
     res.status(200).json({
       _id: user._id,
       userEmail: user.userEmail,
-      // Include any other user fields you want to return
+      userName: user.userName, // Ensure this is included
+      userPhone: user.userPhone, // Ensure this is included
+      registrationDate: user.registrationDate, // If applicable
     });
   } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+});
+
+
+
+// @desc    Update a user
+// @route   PUT /api/user/:id
+// @access  Private
+export const updateUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    user.userName = req.body.userName || user.userName; // Update userName
+    user.userEmail = req.body.userEmail || user.userEmail; // Update userEmail
+    user.userPhone = req.body.userPhone || user.userPhone; // Update userPhone
+  
+    // Update password only if it's provided
+    if (req.body.userPassword) {
+      user.userPassword = req.body.userPassword; // Password should be hashed in the pre-save hook
+    }
+  
+    const updatedUser = await user.save();
+    res.status(200).json(updatedUser);
+  }
+   else {
     res.status(404);
     throw new Error('User not found');
   }

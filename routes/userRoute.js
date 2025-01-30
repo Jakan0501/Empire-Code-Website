@@ -7,7 +7,7 @@ const route = express.Router();
 route.post("/register", registerUser);
 route.post("/login", loginUser);
 route.get("/getAllUsers", fetchUsers);
-route.put("/update/:id", updateUser);
-route.delete("/delete/:id", deleteUser);
+route.put("/update/:id", protect, updateUser); // Ensure this line is included and protected
+route.delete("/delete/:id", protect, deleteUser);
 route.get('/profile', protect, getUserProfile); // Ensure this line is included
 export default route;

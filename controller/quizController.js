@@ -1,4 +1,4 @@
-import User from '../models/quizModel.js';
+import Quiz from '../models/quizModel.js';
 import mongoose from 'mongoose'
 
 
@@ -13,22 +13,24 @@ export const getQuizs = async(req, res) => {
     }
 }
 
-export const createQuiz = async(req, res) => {
-    const quiz = req.body;
+export const createQuiz = async (req, res) => {
+    const quizzes = req.body; // Expecting an array of quizzes
 
-    if (!quiz.quizQuestion || !quiz.quizAnswer || !quiz.quizResult){
-        return res.status(400).json({ success:false, message: 'Please provide all fields'})
+    // Check if the body is an array and validate each quiz
+    if (!Array.isArray(quizzes) || quizzes.length === 0 || quizzes.some(quiz => !quiz.quizQuestion || !quiz.quizAnswer || !quiz.quizResult)) {
+        return res.status(400).json({ success: false, message: 'Please provide all fields for each quiz' });
     }
-    const newQuiz = new Quiz(quiz)
 
-    try{
-        await newQuiz.save();
-        res.status(201).json({ success: true, data: newQuiz})
-    } catch (error){
-        console.error('Error in Create quiz:', error.message)
-        res.status(500).json({ success: false, message: 'Server Error'})
+    try {
+        const newQuizzes = await Quiz.insertMany(quizzes); // Use insertMany to save multiple quizzes
+        res.status(201).json({ success: true, data: newQuizzes });
+    } catch (error) {
+        console.error('Error in Create quiz:', error.message);
+        res.status(500).json({ success: false, message: 'Server Error' });
     }
-} 
+};
+
+
 
 export const updateQuiz = async(req, res) => {
     const{id} = req.params;
