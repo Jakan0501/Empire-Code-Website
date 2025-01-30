@@ -1,0 +1,21 @@
+/* Example CSS for the header container and button */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px; /* Add some spacing below the header */
+  }
+  
+  .inline-btn {
+    background-color: #007bff; /* Blue background */
+    color: white; /* White text */
+    padding: 10px 20px; /* Padding for better button size */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Font size */
+  }
+  
+  .inline-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }

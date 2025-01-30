@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Home from './Home.jsx'
 import Login from './Login.jsx'
 import Register from './Register.jsx'
-import Courses from './Courses.jsx'
+import Courses from './pages/Courses/Courses.jsx'
 import Profile from './Profile.jsx'
 import Quizzes from './Quizzes.jsx'
 
@@ -25,7 +25,7 @@ function App() {
         <Route path ='/home' element={<Home />}></Route>
         <Route path ='/register' element={<Register />}></Route>
         <Route path ='/login' element={<Login />}></Route>
-        <Route path ='/courses' element={<Courses />}></Route>
+        <Route path ='/courses/*' element={<Courses />}></Route>
         <Route path ='/profile' element={<Profile />}></Route>
         <Route path ='/quizzes' element={<Quizzes />}></Route>
       </Routes>

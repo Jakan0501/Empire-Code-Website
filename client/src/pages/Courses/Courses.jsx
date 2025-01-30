@@ -1,20 +1,26 @@
 import React from 'react';
-import pfpKevin from "./assets/images/pic-kevin.jpg"; 
-import pfpLucas from "./assets/images/pic-lucas.jpg"; 
-import pfpIrfan from "./assets/images/pic-irfan.jpg"; 
-import pic_chatbot from "./assets/images/pic-chatbot.jpeg";
-import pic_AIimage from "./assets/images/pic-AI_image.jpg";
-import pic_classifier from "./assets/images/pic-classifier.jpeg";
-import pic_search from "./assets/images/pic-search.jpeg";
-import pic_filter from "./assets/images/pic-filter.png";
-import pic_rps from "./assets/images/pic-rps.jpeg";
-
-
+import pfpKevin from "../../assets/images/pic-kevin.jpg"; 
+import pfpLucas from "../../assets/images/pic-lucas.jpg"; 
+import pfpIrfan from "../../assets/images/pic-irfan.jpg"; 
+import pic_chatbot from "../../assets/images/pic-chatbot.jpeg";
+import pic_AIimage from "../../assets/images/pic-AI_image.jpg";
+import pic_classifier from "../../assets/images/pic-classifier.jpeg";
+import pic_search from "../../assets/images/pic-search.jpeg";
+import pic_filter from "../../assets/images/pic-filter.png";
+import pic_rps from "../../assets/images/pic-rps.jpeg";
+import '../../css/Courses.css';
+import CreateCourse from './CreateCourses';
 
 const Courses = () => {
+
   return (
     <section className="courses">
-      <h1 className="heading">Our Courses</h1>
+      <div className="header-container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h1 className="heading">Our Courses</h1>
+        <button onClick={handleCreateCourse} className="inline-btn">
+          Create New Course
+        </button>
+      </div>
 
       <div className="box-container">
 
@@ -111,5 +117,8 @@ const Courses = () => {
     </section>
   );
 };
+
+
+
 
 export default Courses;
