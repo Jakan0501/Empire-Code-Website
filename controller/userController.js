@@ -1,114 +1,128 @@
+import asyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
 
-export const create = async (req, res) => {
-    try {
-        const userData = new User(req.body);
-        const {userEmail}= userData;
-        const userExit = await User.findOne({userEmail});
-        if (userExit){
-            return res.status(400).json({message:"User already exist"});
-        }
-        const savedUser = await userData.save();
-        res.status(200).json(savedUser);
-        
-    } catch (error) {
-        res.status(500).json({message:"Server Error"});
-    }
-}
+// @desc    Register a new user
+// @route   POST /api/users/register
+// @access  Public
+export const registerUser = asyncHandler(async (req, res) => {
+  const { userEmail, userPassword, userPhone, userName } = req.body; // Include userPhone and userName
 
-export const fetch = async (req, res) => {
-    try {
-        const users = await User.find();
-        if(users.length === 0) {
-            return res.status(404).json({message:"No user found"});
-        }
-        res.status(200).json(users);
-    } catch (error) {
-        res.status(500).json({message:"Server Error"});
-    }
-}
+  // Check if user already exists
+  const userExists = await User.findOne({ userEmail });
+  if (userExists) {
+      res.status(400);
+      throw new Error('User already exists');
+  }
 
-export const update = async (req, res) => {
-    try {
-        const id = req.params.id;
-        const userExit = await User.findById({_id:id});
-        if (!userExit){
-            return res.status(404).json({message:"User not found"});
-        }
-        const updatedUser = await User.findByIdAndUpdate(id, req.body, {new:true});
-        res.status(201).json(updatedUser);
-    } catch (error) {
-        res.status(500).json({message:"Server Error"});
-    }
+  // Create user
+  const user = await User.create({ userEmail, userPassword, userPhone, userName }); // Include userPhone and userName
 
-}
-
-export const deleteUser = async (req, res) => {
-    try {
-        const id = req.params.id;
-        const userExit = await User.findById({_id: id});
-        if (!userExit){
-            return res.status(404).json({message:"User not found"});
-        }
-        await User.findByIdAndDelete(id);
-        res.status(201).json({message:"User deleted successfully"});
-    } catch (error) {
-        res.status(500).json({message:"Server Error"});
-    }
-}
+  if (user) {
+      res.status(201).json({
+          _id: user._id,
+          userEmail: user.userEmail,
+          token: user.generateToken(),
+      });
+  } else {
+      res.status(400);
+      throw new Error('Invalid user data');
+  }
+});
 
 
+// @desc    Authenticate user & get token
+// @route   POST /api/users/login
+// @access  Public
+export const loginUser = async (req, res) => {
+  const { userEmail, userPassword } = req.body;
 
+  try {
+      // Find the user by email
+      const user = await User.findOne({ userEmail });
 
+      // Check if user exists
+      if (!user) {
+          return res.status(401).json({ message: 'Invalid email or password' });
+      }
 
+      // Compare the entered password with the hashed password
+      const isMatch = await user.matchPassword(userPassword);
 
+      if (!isMatch) {
+          return res.status(401).json({ message: 'Invalid email or password' });
+      }
 
+      // Generate a token
+      const token = user.generateToken();
 
-
-
-export const register = async (req, res) => {
-    try {
-        const { userEmail, userPassword } = req.body;
-
-        // Check if user already exists
-        const userExists = await User.findOne({ userEmail });
-        if (userExists) {
-            return res.status(400).json({ message: "User already exists" });
-        }
-
-        // Create a new user without hashing the userPassword
-        const userData = new User({
-            userEmail,
-            userPassword, // Store the userPassword as is
-        });
-
-        const savedUser = await userData.save();
-        res.status(201).json(savedUser);
-    } catch (error) {
-        res.status(500).json({ message: "Server Error" });
-    }
+      // Respond with user info and token
+      res.status(200).json({
+          _id: user._id,
+          userName: user.userName,
+          userEmail: user.userEmail,
+          token,
+      });
+  } catch (error) {
+      res.status(500).json({ message: 'Server error' });
+  }
 };
 
 
+// @desc    Fetch all users
+// @route   GET /api/users
+// @access  Private
+export const fetchUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({});
+  res.status(200).json(users);
+});
 
-export const login = async (req, res) => {
-    try {
-        const { userEmail, userPassword } = req.body;
+// @desc    Update a user
+// @route   PUT /api/users/:id
+// @access  Private
+export const updateUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
 
-        // Check if user exists
-        const user = await User.findOne({ userEmail });
-        if (!user) {
-            return res.status(400).json({ message: "Invalid credentials" });
-        }
+  if (user) {
+    user.userEmail = req.body.userEmail || user.userEmail;
+    user.userPassword = req.body.userPassword || user.userPassword;
 
-        // Check if userPassword matches
-        if (user.userPassword !== userPassword) {
-            return res.status(400).json({ message: "Invalid credentials" });
-        }
+    const updatedUser = await user.save();
+    res.status(200).json(updatedUser);
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+});
 
-        // Successful login
-        res.status(200).json({ message: "Login successful", user });
-    } catch (error) {
-        res.status(500).json({ message: "Server Error" });
-    }
-};
+// @desc    Delete a user
+// @route   DELETE /api/users/:id
+// @access  Private
+export const deleteUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (user) {
+    await user.remove();
+    res.status(200).json({ message: 'User removed' });
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+});
+
+// @desc    Get user profile
+// @route   GET /api/users/profile
+// @access  Private
+export const getUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id); // Assuming req.user is populated by the protect middleware
+
+  if (user) {
+    res.status(200).json({
+      _id: user._id,
+      userEmail: user.userEmail,
+      // Include any other user fields you want to return
+    });
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+});

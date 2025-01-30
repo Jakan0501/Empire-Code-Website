@@ -1,14 +1,13 @@
 import express from 'express';
-import {fetch, create, update, deleteUser, register, login } from '../controller/userController.js';
+import { fetchUsers, registerUser, loginUser, updateUser, deleteUser, getUserProfile } from '../controller/userController.js';
+import { protect } from '../middleware/authMiddleware.js';
 
 const route = express.Router();
 
-
-route.post("/create", create);
-route.post("/register", register);
-route.post("/login", login); // Add login route
-//route.get("/fetch", fetch);
-route.get("/getAllUsers", fetch);
-route.put("/update/:id", update);
+route.post("/register", registerUser);
+route.post("/login", loginUser);
+route.get("/getAllUsers", fetchUsers);
+route.put("/update/:id", updateUser);
 route.delete("/delete/:id", deleteUser);
-export default route; 
+route.get('/profile', protect, getUserProfile); // Ensure this line is included
+export default route;

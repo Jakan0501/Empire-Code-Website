@@ -7,7 +7,7 @@ const Login = () => {
     const [userPassword, setPassword] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const navigate = useNavigate(); // For navigation after successful login
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -18,8 +18,10 @@ const Login = () => {
                 console.log("Login successful:", result);
                 setSuccessMessage('Login successful!');
                 setErrorMessage('');
-                // Optionally, redirect to another page
-                navigate('/home'); // Change to your desired route
+                // Store the token in localStorage or sessionStorage
+                localStorage.setItem('token', result.data.token);
+                // Redirect to another page
+                navigate('/home');
             })
             .catch(err => {
                 console.error("Login error:", err.response ? err.response.data : err.message);
@@ -34,25 +36,21 @@ const Login = () => {
                 <h3>Login Now</h3>
                 {successMessage && <p className="success-message">{successMessage}</p>}
                 {errorMessage && <p className="error-message">{errorMessage}</p>}
-                <p>
-                    Your Email <span>*</span>
-                </p>
+                <p>Your Email <span>*</span></p>
                 <input
-                    type="userEmail"
+                    type="email"
                     name="userEmail"
-                    placeholder="Enter your userEmail"
+                    placeholder="Enter your email"
                     required
                     maxLength="50"
                     className="box"
                     onChange={(e) => setEmail(e.target.value)}
                 />
-                <p>
-                    Your Password <span>*</span>
-                </p>
+                <p>Your Password <span>*</span></p>
                 <input
                     type="password"
-                    name="password"
-                    placeholder="Enter your userPassword"
+                    name="userPassword"
+                    placeholder="Enter your password"
                     required
                     maxLength="20"
                     className="box"
