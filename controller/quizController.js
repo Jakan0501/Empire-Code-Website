@@ -60,3 +60,25 @@ export const deleteQuiz = async(req, res) =>{
         res.status(500).json({ success: false, message:'Server Error'})
     }
 }
+
+
+
+export const getQuizById = async (req, res) => {
+    const { id } = req.params;
+ 
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ success: false, message: 'Invalid Quiz Id' });
+    }
+ 
+    try {
+        const quiz = await Quiz.findById(id);
+        if (!quiz) {
+            return res.status(404).json({ success: false, message: 'Quiz not found' });
+        }
+        res.status(200).json({ success: true, data: quiz });
+    } catch (error) {
+        console.log('Error fetching quiz:', error.message);
+        res.status(500).json({ success: false, message: 'Server Error' });
+    }
+ };
+ 

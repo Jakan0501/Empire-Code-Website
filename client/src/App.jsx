@@ -6,10 +6,17 @@ import Login from './Login.jsx'
 import Register from './Register.jsx'
 import Courses from './pages/Courses/Courses.jsx'
 import Profile from './Profile.jsx'
-import Quizzes from './Quizzes.jsx'
+import Quizzes from './pages/Quizzes/Quizzes.jsx'
 
 import Navbar from './components/Navbar'; // Adjust the path as necessary
 import Sidebar from './components/Sidebar.jsx';
+
+
+// Importing CRUDS:
+import CreateQuizzes from './pages/Quizzes/Create_Quizzes.jsx';
+import QuizManagement from './pages/Quizzes/QuizManagement'; 
+import EditQuiz from './pages/Quizzes/EditQuiz'; 
+
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom' 
 import '../index.css';
@@ -28,6 +35,11 @@ function App() {
         <Route path ='/courses/*' element={<Courses />}></Route>
         <Route path ='/profile' element={<Profile />}></Route>
         <Route path ='/quizzes' element={<Quizzes />}></Route>
+
+
+        <Route path="/create-quiz" element={<CreateQuizzes />} />
+        <Route path="/quizzes-management" element={<QuizManagement />} />
+        <Route path="/quizzes/update/:id" element={<EditQuiz />} />
       </Routes>
     </BrowserRouter>
   )
