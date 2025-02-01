@@ -5,6 +5,7 @@ import axios from 'axios';
 const CreateQuizzes = () => {
     const [quiz, setQuiz] = useState({
         quizQuestion: '',
+        quizOptions: [''], // Initialize with one empty option
         quizAnswer: '',
         quizResult: ''
     });
@@ -18,7 +19,7 @@ const CreateQuizzes = () => {
             const response = await axios.post('http://localhost:8000/api/quiz/create', [quiz]); // Sending as an array
             if (response.status === 201) {
                 setSuccess(true);
-                setQuiz({ quizQuestion: '', quizAnswer: '', quizResult: '' }); // Reset form
+                setQuiz({ quizQuestion: '', quizOptions: [''], quizAnswer: '', quizResult: '' }); // Reset form
                 setError(null);
             }
         } catch (error) {
@@ -27,7 +28,24 @@ const CreateQuizzes = () => {
             setSuccess(false);
         }
     };
-    
+
+    // Function to handle option change
+    const handleOptionChange = (index, value) => {
+        const updatedOptions = [...quiz.quizOptions];
+        updatedOptions[index] = value;
+        setQuiz({ ...quiz, quizOptions: updatedOptions });
+    };
+
+    // Function to add a new option
+    const addOption = () => {
+        setQuiz({ ...quiz, quizOptions: [...quiz.quizOptions, ''] });
+    };
+
+    // Function to remove an option
+    const removeOption = (index) => {
+        const updatedOptions = quiz.quizOptions.filter((_, i) => i !== index);
+        setQuiz({ ...quiz, quizOptions: updatedOptions });
+    };
 
     return (
         <div>
@@ -42,6 +60,20 @@ const CreateQuizzes = () => {
                     onChange={(e) => setQuiz({ ...quiz, quizQuestion: e.target.value })}
                     required
                 />
+                <h3>Quiz Options</h3>
+                {quiz.quizOptions.map((option, index) => (
+                    <div key={index}>
+                        <input
+                            type="text"
+                            placeholder={`Option ${index + 1}`}
+                            value={option}
+                            onChange={(e) => handleOptionChange(index, e.target.value)}
+                            required
+                        />
+                        <button type="button" onClick={() => removeOption(index)}>Remove</button>
+                    </div>
+                ))}
+                <button type="button" onClick={addOption}>Add Option</button>
                 <input
                     type="text"
                     placeholder="Quiz Answer"

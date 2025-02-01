@@ -58,3 +58,22 @@ export const deleteLesson = async(req, res) =>{
         res.status(500).json({ success: false, message:'Server Error'})
     }
 }
+
+export const getLessonById = async (req, res) => {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ success: false, message: 'Invalid Lesson Id' });
+    }
+
+    try {
+        const lesson = await Lesson.findById(id);
+        if (!lesson) {
+            return res.status(404).json({ success: false, message: 'Lesson not found' });
+        }
+        res.status(200).json({ success: true, data: lesson });
+    } catch (error) {
+        console.error('Error fetching lesson by ID:', error.message);
+        res.status(500).json({ success: false, message: 'Server Error' });
+    }
+};

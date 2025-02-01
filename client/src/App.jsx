@@ -12,37 +12,48 @@ import Navbar from './components/Navbar'; // Adjust the path as necessary
 import Sidebar from './components/Sidebar.jsx';
 
 
-// Importing CRUDS:
+// Importing Quizz CRUDS:
 import CreateQuizzes from './pages/Quizzes/Create_Quizzes.jsx';
 import QuizManagement from './pages/Quizzes/QuizManagement'; 
 import EditQuiz from './pages/Quizzes/EditQuiz'; 
+
+//Importing Lesson CRUDS:
+import CreateLesson from './pages/Lessons/CreateLesson';
+import LessonManagement from './pages/Lessons/LessonManagement';
+import EditLesson from './pages/Lessons/EditLesson';
+
+
+
 
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom' 
 import '../index.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
     <BrowserRouter>
-          <Navbar /> {/* Add Navbar here */}
-          <Sidebar /> {/* Add Sidebar here */}
+      <Navbar /> {/* Add Navbar here */}
+      <Sidebar /> {/* Add Sidebar here */}
       <Routes>
-        <Route path ='/home' element={<Home />}></Route>
-        <Route path ='/register' element={<Register />}></Route>
-        <Route path ='/login' element={<Login />}></Route>
-        <Route path ='/courses/*' element={<Courses />}></Route>
-        <Route path ='/profile' element={<Profile />}></Route>
-        <Route path ='/quizzes' element={<Quizzes />}></Route>
-
+        <Route path="/home" element={<Home />}></Route>
+        <Route path="/register" element={<Register />}></Route>
+        <Route path="/login" element={<Login />}></Route>
+        <Route path="/courses/*" element={<Courses />}></Route>
+        <Route path="/profile" element={<Profile />}></Route>
+        <Route path="/quizzes" element={<Quizzes />}></Route>
 
         <Route path="/create-quiz" element={<CreateQuizzes />} />
         <Route path="/quizzes-management" element={<QuizManagement />} />
         <Route path="/quizzes/update/:id" element={<EditQuiz />} />
+
+        <Route path="/create-lesson" element={<CreateLesson />} />
+        <Route path="/lessons-management" element={<LessonManagement />} />
+        <Route path="/lessons/update/:id" element={<EditLesson />} />
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
 
 
