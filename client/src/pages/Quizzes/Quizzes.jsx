@@ -1,112 +1,94 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import '../../css/Quizzes.css';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "../../css/Quizzes.css";
 
 const Quizzes = () => {
-    const [quizzes, setQuizzes] = useState([]); // State to hold quizzes
-    const [currentQuiz, setCurrentQuiz] = useState(null); // State for the selected quiz
-    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [answers, setAnswers] = useState([]);
+  const [questions, setQuestions] = useState([]); // State to hold fetched questions
+  const [userAnswers, setUserAnswers] = useState([]);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState(null); // State for error handling
 
-    // Fetch quizzes from the API when the component mounts
-    useEffect(() => {
-        const fetchQuizzes = async () => {
-            try {
-                const response = await axios.get('http://localhost:8000/api/quiz/get/');
-                if (response.data && response.data.data) {
-                    setQuizzes(response.data.data); // Set the quizzes state
-                } else {
-                    console.error('Unexpected response structure:', response.data);
-                }
-            } catch (error) {
-                console.error('Error fetching quizzes:', error);
-            }
-        };
-        fetchQuizzes();
-    }, []);
-
-    // Function to handle starting a quiz
-    const handleStartQuiz = (quiz) => {
-        setCurrentQuiz(quiz);
-        setCurrentQuestionIndex(0);
-        setAnswers(Array(quiz.questions.length).fill('')); // Initialize answers array
+  // Fetch questions from the API when the component mounts
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/api/quiz/get"); // Update with your actual API endpoint
+        if (response.data && response.data.data) {
+          setQuestions(response.data.data);
+          setUserAnswers(Array(response.data.data.length).fill("")); // Initialize userAnswers array
+        } else {
+          console.error("Unexpected response structure:", response.data);
+        }
+      } catch (error) {
+        setError("Failed to fetch questions."); // Set error message
+        console.error("Error fetching questions:", error);
+      }
     };
+    fetchQuestions();
+  }, []);
 
-    const handleAnswerChange = (e) => {
-        const newAnswers = [...answers];
-        newAnswers[currentQuestionIndex] = e.target.value;
-        setAnswers(newAnswers);
-    };
+  const handleChange = (index, value) => {
+    const updatedAnswers = [...userAnswers];
+    updatedAnswers[index] = value;
+    setUserAnswers(updatedAnswers);
+  };
 
-    const handleNext = () => {
-        setCurrentQuestionIndex((prev) => Math.min(prev + 1, currentQuiz.questions.length - 1));
-    };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSubmitted(true);
+  };
 
-    const handlePrevious = () => {
-        setCurrentQuestionIndex((prev) => Math.max(prev - 1, 0));
-    };
-
-    const handleSubmit = () => {
-        // Logic to submit answers (e.g., POST to an API)
-        console.log('Submitting answers:', answers);
-        // Reset to initial state after submission
-        setCurrentQuiz(null);
-        setCurrentQuestionIndex(0);
-        setAnswers([]);
-    };
-
-    return (
-        <div>
-            <h1>Welcome to the Quiz Page</h1>
-            {currentQuiz ? (
-                <div>
-                    <h2>{currentQuiz.title}</h2>
-                    <h3>Question {currentQuestionIndex + 1} of {currentQuiz.questions.length}</h3>
-                    <p>{currentQuiz.questions[currentQuestionIndex].question}</p>
-                    <ul>
-                        {currentQuiz.questions[currentQuestionIndex].options.map((option, index) => (
-                            <li key={index}>
-                                <label>
-                                    <input
-                                        type="radio"
-                                        name="quiz-option"
-                                        value={option}
-                                        checked={answers[currentQuestionIndex] === option}
-                                        onChange={handleAnswerChange}
-                                    />
-                                    {option}
-                                </label>
-                            </li>
-                        ))}
-                    </ul>
-                    <div className="navigation-buttons">
-                        <button onClick={handlePrevious} disabled={currentQuestionIndex === 0}>Previous</button>
-                        {currentQuestionIndex < currentQuiz.questions.length - 1 ? (
-                            <button onClick={handleNext}>Next</button>
-                        ) : (
-                            <button onClick={handleSubmit}>Submit</button>
-                        )}
-                    </div>
+  return (
+    <section className="quiz">
+      <h1>Quizzes</h1>
+      {error && <p className="error">{error}</p>}{" "}
+      {/* Display error message if any */}
+      <form onSubmit={handleSubmit}>
+        {questions.map((q, index) => (
+          <div key={index} className="question">
+            <h3>{q.quizQuestion}</h3> {/* Display the question */}
+            <div className="options">
+              {q.quizOptions.map((option, i) => (
+                <div key={i} className="option">
+                  <input
+                    type="radio"
+                    name={`question-${index}`}
+                    value={option}
+                    checked={userAnswers[index] === option}
+                    onChange={() => handleChange(index, option)}
+                    disabled={submitted}
+                  />
+                  <span>
+                    {`${String.fromCharCode(97 + i)})`} {option}
+                  </span>
                 </div>
-            ) : (
-                <div>
-                    <h2>Available Quizzes</h2>
-                    {quizzes.length > 0 ? (
-                        <ul>
-                            {quizzes.map((quiz) => (
-                                <li key={quiz._id}>
-                                    <span>{quiz.title}</span>
-                                    <button onClick={() => handleStartQuiz(quiz)}>Start Quiz</button>
-                                </li>
-                            ))}
-                        </ul>
-                    ) : (
-                        <p>No quizzes available at the moment. Please check back later!</p>
-                    )}
-                </div>
-            )}
+              ))}
+            </div>
+          </div>
+        ))}
+        <button type="submit" disabled={submitted}>
+          Submit
+        </button>
+      </form>
+      {submitted && (
+        <div className="results">
+          <h2>Results</h2>
+          {questions.map((q, index) => (
+            <div key={index} className="result">
+              <h3>{q.quizQuestion}</h3>
+              <p>Your answer: {userAnswers[index]}</p>
+              <p>Correct answer: {q.quizAnswer}</p>
+              <p>
+                {userAnswers[index] === q.quizAnswer
+                  ? "Correct!"
+                  : "Incorrect!"}
+              </p>
+            </div>
+          ))}
         </div>
-    );
+      )}
+    </section>
+  );
 };
 
 export default Quizzes;
