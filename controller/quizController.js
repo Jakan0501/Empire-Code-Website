@@ -1,24 +1,29 @@
 import Quiz from '../models/quizModel.js';
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
-
-export const getQuizs = async(req, res) => {
-
+export const getQuizs = async (req, res) => {
     try {
-        const quizs = await Quiz.find({})
-        res.status(200).json({ success: true, data: quizs })
+        const quizs = await Quiz.find({});
+        res.status(200).json({ success: true, data: quizs });
     } catch (error) {
-        console.log('error in fetching quizs:', error.message)
-        res.status(500).json({success: false, message:'Server Error'})
+        console.log('error in fetching quizs:', error.message);
+        res.status(500).json({ success: false, message: 'Server Error' });
     }
-}
+};
 
 export const createQuiz = async (req, res) => {
     const quizzes = req.body; // Expecting an array of quizzes
 
     // Check if the body is an array and validate each quiz
-    if (!Array.isArray(quizzes) || quizzes.length === 0 || quizzes.some(quiz => !quiz.quizQuestion || !quiz.quizAnswer || !quiz.quizResult)) {
-        return res.status(400).json({ success: false, message: 'Please provide all fields for each quiz' });
+    if (!Array.isArray(quizzes) || quizzes.length === 0 || quizzes.some(quiz => 
+        !quiz.quizQuestion || 
+        !quiz.quizAnswer || 
+        !quiz.quizResult || 
+        !quiz.quizOptions || // Ensure quizOptions is provided
+        !Array.isArray(quiz.quizOptions) || // Ensure quizOptions is an array
+        quiz.quizOptions.length === 0 // Ensure quizOptions is not empty
+    )) {
+        return res.status(400).json({ success: false, message: 'Please provide all fields for each quiz, including quizOptions' });
     }
 
     try {
@@ -30,46 +35,41 @@ export const createQuiz = async (req, res) => {
     }
 };
 
-
-
-export const updateQuiz = async(req, res) => {
-    const{id} = req.params;
-
+export const updateQuiz = async (req, res) => {
+    const { id } = req.params;
     const quiz = req.body;
 
-    if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({success: false, message:'Invalid Quiz Id'})
-    }
-
-    try {
-        const updatedQuiz = await Quiz.findByIdAndUpdate(id, quiz, {new: true})
-        res.status(200).json({ success: true, data: updatedQuiz})
-    } catch (error) {
-        res.status(500).json({ success: false, message: 'Server Error'})
-    }
-}
-
-export const deleteQuiz = async(req, res) =>{
-    const {id} = req.params
-    
-    try {
-        await Quiz.findByIdAndDelete(id);
-        res.status(200).json({ success: true, message:'Quiz Deleted'})
-    } catch (error) {
-        console.log('error in deleting quizs:', error.message)
-        res.status(500).json({ success: false, message:'Server Error'})
-    }
-}
-
-
-
-export const getQuizById = async (req, res) => {
-    const { id } = req.params;
- 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({ success: false, message: 'Invalid Quiz Id' });
     }
- 
+
+    try {
+        const updatedQuiz = await Quiz.findByIdAndUpdate(id, quiz, { new: true });
+        res.status(200).json({ success: true, data: updatedQuiz });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Server Error' });
+    }
+};
+
+export const deleteQuiz = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        await Quiz.findByIdAndDelete(id);
+        res.status(200).json({ success: true, message: 'Quiz Deleted' });
+    } catch (error) {
+        console.log('error in deleting quizs:', error.message);
+        res.status(500).json({ success: false, message: 'Server Error' });
+    }
+};
+
+export const getQuizById = async (req, res) => {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ success: false, message: 'Invalid Quiz Id' });
+    }
+
     try {
         const quiz = await Quiz.findById(id);
         if (!quiz) {
@@ -80,5 +80,4 @@ export const getQuizById = async (req, res) => {
         console.log('Error fetching quiz:', error.message);
         res.status(500).json({ success: false, message: 'Server Error' });
     }
- };
- 
+};

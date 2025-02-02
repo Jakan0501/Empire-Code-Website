@@ -1,153 +1,80 @@
-/* Styling for the quiz container */
-.quiz-container {
-    max-width: 900px; /* Keep the container width */
-    margin: 0 auto; /* Center the container */
-    padding: 30px 20px; /* Add padding but decrease right padding */
-    font-family: Arial, sans-serif;
-    text-align: left; /* Align text to the left */
-    margin-left: 40px; /* Reduce the space on the left */
+/* General styling for the quiz section */
+.quiz {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
-  }
-  
-  h1 {
-    font-size: 2.5rem;
-    text-align: left; /* Align heading to the left */
-  }
-  
-  h3 {
-    margin-bottom: 15px;
-    font-size: 1.6rem;
-    margin-left: 0; /* Remove left margin to bring text closer to left */
-  }
-  
-  .quiz-question {
-    margin-bottom: 25px;
-    margin-left: 0; /* Align questions to the left */
-  }
-  
-/* Styling for quiz options (aligned vertically) */
-.quiz-options {
-    display: flex;
-    flex-direction: column; /* Stack options vertically */
-    gap: 15px;
-    padding-left: 0; /* Remove padding from the left */
-    margin-left: 0; /* Align options closer to the left */
-  }
-  
-  .quiz-option {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    font-size: 1.3rem;
-    margin-left: 0; /* Remove margin-left for tighter alignment */
-    width: 100%; /* Ensure options take full width */
-    white-space: normal; /* Allow text to wrap onto multiple lines */
-    overflow-wrap: break-word; /* Prevent text overflow */
-    word-wrap: break-word; /* For legacy browsers */
-  }
-  
-  /* To ensure each option fits within the container */
-  .quiz-options input {
-    width: auto; /* Let the input button take up minimal space */
-  }
-  
-  /* To prevent shrinking */
-  .quiz-options label {
-    display: inline-block;
-    width: 100%;
-    word-wrap: break-word;
-  }
-  
-  
-  /* Style for the submit button */
-  button {
-    display: block;
-    width: 100%;
-    padding: 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 25px;
-    margin-left: 0; /* Align button to the left */
-  }
-  
-  button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  button:hover:not(:disabled) {
-    background-color: #0056b3;
-  }
-  
-  /* Styling for quiz results */
-  .quiz-results {
-    margin-top: 40px;
-    padding: 30px;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    margin-left: 0; /* Align results to the left */
-  }
-  
-  .quiz-result {
-    margin-bottom: 25px;
-  }
-  
-  .quiz-result h3 {
-    font-size: 1.4rem;
-  }
-  
-  .quiz-result p {
-    font-size: 1.2rem;
-  }
-  
-  /* Correct and incorrect answer styling */
-  .quiz-result p:last-child {
-    font-weight: bold;
-  }
-  
-  .quiz-result p:last-child:nth-child(3) {
-    color: green;
-  }
-  
-  .quiz-result p:last-child:nth-child(4) {
-    color: red;
-  }
-  
+/* Quiz title */
+.quiz h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Styling for each question block */
+.question {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.question h3 {
+  margin-bottom: 10px;
+}
 
 
-  /* Increase the font size of text by 30% */
-body, h1, h2, h3, p, label, button {
-    font-size: 1.3em; /* Increase font size by 30% */
-  }
-  
-  /* Specific adjustments for quiz options and questions */
-  .quiz-container {
-    font-size: 1.3em; /* Increase the font size of the quiz container */
-  }
-  
-  .quiz-question h3 {
-    font-size: 1.3em; /* Increase the font size of the question text */
-  }
-  
-  .quiz-option {
-    font-size: 1.3em; /* Increase the font size of the options */
-  }
-  
-  .quiz-results h2 {
-    font-size: 1.3em; /* Increase the font size of the results heading */
-  }
-  
-  .quiz-result p {
-    font-size: 1.3em; /* Increase the font size of the result text */
-  }
-  
-  /* Ensure the button text is also larger */
-  button {
-    font-size: 1.3em; /* Increase the font size of the submit button */
-  }
-  
+
+
+
+/* Submit button */
+button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+  font-size: 18px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Styling for results section */
+.results {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #eef9e8;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.results h2 {
+  text-align: center;
+  color: #28a745;
+}
+
+/* Error message styling */
+.error {
+  color: red;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+

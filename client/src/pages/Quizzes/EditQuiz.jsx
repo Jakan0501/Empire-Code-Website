@@ -6,6 +6,7 @@ const EditQuiz = () => {
     const { id } = useParams(); // Get the quiz ID from the URL
     const [quiz, setQuiz] = useState({
         quizQuestion: '',
+        quizOptions: [''], // Initialize with one empty option
         quizAnswer: '',
         quizResult: ''
     });
@@ -18,7 +19,7 @@ const EditQuiz = () => {
         const fetchQuiz = async () => {
             try {
                 const response = await axios.get(`http://localhost:8000/api/quiz/get/${id}`);
-                setQuiz(response.data.data);
+                setQuiz(response.data.data); // Assuming this includes quizOptions
             } catch (error) {
                 setError('Failed to fetch quiz data.');
             }
@@ -44,6 +45,24 @@ const EditQuiz = () => {
         }
     };
 
+    // Function to handle option change
+    const handleOptionChange = (index, value) => {
+        const updatedOptions = [...quiz.quizOptions];
+        updatedOptions[index] = value;
+        setQuiz({ ...quiz, quizOptions: updatedOptions });
+    };
+
+    // Function to add a new option
+    const addOption = () => {
+        setQuiz({ ...quiz, quizOptions: [...quiz.quizOptions, ''] });
+    };
+
+    // Function to remove an option
+    const removeOption = (index) => {
+        const updatedOptions = quiz.quizOptions.filter((_, i) => i !== index);
+        setQuiz({ ...quiz, quizOptions: updatedOptions });
+    };
+
     return (
         <div>
             <h1>Edit Quiz</h1>
@@ -57,6 +76,20 @@ const EditQuiz = () => {
                     onChange={(e) => setQuiz({ ...quiz, quizQuestion: e.target.value })}
                     required
                 />
+                <h3>Quiz Options</h3>
+                {quiz.quizOptions.map((option, index) => (
+                    <div key={index}>
+                        <input
+                            type="text"
+                            placeholder={`Option ${index + 1}`}
+                            value={option}
+                            onChange={(e) => handleOptionChange(index, e.target.value)}
+                            required
+                        />
+                        <button type="button" onClick={() => removeOption(index)}>Remove</button>
+                    </div>
+                ))}
+                <button type="button" onClick={addOption}>Add Option</button>
                 <input
                     type="text"
                     placeholder="Quiz Answer"
