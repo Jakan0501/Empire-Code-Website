@@ -7,9 +7,9 @@ const CreateCourse = () => {
         courseTitle: '',
         courseDescription: '',
         coursePrice: 0,
-        // Teacher field can be kept for later use
-        teacher: '',
+        teacher: null,  // ✅ Set teacher to null instead of empty string
     });
+    
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 

@@ -13,22 +13,29 @@ export const getCourses = async(req, res) => {
     }
 }
 
-export const createCourse = async(req, res) => {
-    const course = req.body;
+export const createCourse = async (req, res) => {
+    let course = req.body;
 
-    if (!course.courseTitle || !course.coursePrice ){
-        return res.status(400).json({ success:false, message: 'Please provide all fields'})
+    if (!course.courseTitle || !course.coursePrice) {
+        return res.status(400).json({ success: false, message: 'Please provide all fields' });
     }
-    const newCourse = new Course(course)
 
-    try{
+    // ✅ If teacher is an empty string, set it to null
+    if (!course.teacher || course.teacher === '') {
+        course.teacher = null;
+    }
+
+    const newCourse = new Course(course);
+
+    try {
         await newCourse.save();
-        res.status(201).json({ success: true, data: newCourse})
-    } catch (error){
-        console.error('Error in Create course:', error.message)
-        res.status(500).json({ success: false, message: 'Server Error'})
+        res.status(201).json({ success: true, data: newCourse });
+    } catch (error) {
+        console.error('Error in Create course:', error.message);
+        res.status(500).json({ success: false, message: 'Server Error' });
     }
-} 
+};
+
 
 export const updateCourse = async(req, res) => {
     const{id} = req.params;
