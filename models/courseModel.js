@@ -14,7 +14,8 @@ const courseSchema = new mongoose.Schema({
     },
     teacher: { 
         type: mongoose.Schema.Types.ObjectId, 
-        ref: "Teacher" 
+        ref: "Teacher",
+        default: null 
     }, 
     lessons: [{
         type: mongoose.Schema.Types.ObjectId,
