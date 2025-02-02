@@ -8,6 +8,8 @@ import Courses from './pages/Courses/Courses.jsx'
 import Profile from './Profile.jsx'
 import Quizzes from './Quizzes.jsx'
 
+import CreateCourse from './pages/Courses/CreateCourses.jsx';
+
 import Navbar from './components/Navbar'; // Adjust the path as necessary
 import Sidebar from './components/Sidebar.jsx';
 
@@ -25,9 +27,11 @@ function App() {
         <Route path ='/home' element={<Home />}></Route>
         <Route path ='/register' element={<Register />}></Route>
         <Route path ='/login' element={<Login />}></Route>
-        <Route path ='/courses/*' element={<Courses />}></Route>
+        <Route path ='/courses/' element={<Courses />}></Route>
         <Route path ='/profile' element={<Profile />}></Route>
         <Route path ='/quizzes' element={<Quizzes />}></Route>
+        <Route path="/createCourse" element={<CreateCourse />}></Route>
+
       </Routes>
     </BrowserRouter>
   )

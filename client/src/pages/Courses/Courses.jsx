@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import pfpKevin from "../../assets/images/pic-kevin.jpg"; 
 import pfpLucas from "../../assets/images/pic-lucas.jpg"; 
 import pfpIrfan from "../../assets/images/pic-irfan.jpg"; 
@@ -9,9 +10,16 @@ import pic_search from "../../assets/images/pic-search.jpeg";
 import pic_filter from "../../assets/images/pic-filter.png";
 import pic_rps from "../../assets/images/pic-rps.jpeg";
 import '../../css/Courses.css';
-import CreateCourse from './CreateCourses';
+
 
 const Courses = () => {
+  const navigate = useNavigate(); // Initialize useNavigate
+
+  // Function to handle navigation to the Create Course page
+  const handleCreateCourse = () => {
+    navigate('/createCourse'); // Navigate to the /create route
+  };
+
 
   return (
     <section className="courses">
