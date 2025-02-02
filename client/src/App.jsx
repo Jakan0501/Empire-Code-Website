@@ -8,6 +8,8 @@ import Courses from './pages/Courses/Courses.jsx'
 import Profile from './Profile.jsx'
 import Quizzes from './pages/Quizzes/Quizzes.jsx'
 
+import CreateCourse from './pages/Courses/CreateCourses.jsx';
+
 import Navbar from './components/Navbar'; // Adjust the path as necessary
 import Sidebar from './components/Sidebar.jsx';
 
