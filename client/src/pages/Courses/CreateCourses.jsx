@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -7,11 +7,27 @@ const CreateCourse = () => {
         courseTitle: '',
         courseDescription: '',
         coursePrice: 0,
-        teacher: null,  // ✅ Set teacher to null instead of empty string
+        teacher: '',
     });
     
+    const [teachers, setTeachers] = useState([]); // Ensure initial state is an array
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchTeachers = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/api/teacher/get');
+                console.log('Fetched teachers:', response.data); // Log the fetched data
+                setTeachers(response.data); // Ensure this is an array
+            } catch (err) {
+                console.error('Error fetching teachers:', err);
+                setError('Failed to load teachers');
+            }
+        };
+
+        fetchTeachers();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -51,7 +67,25 @@ const CreateCourse = () => {
                     required
                     min="0"
                 />
-                {/* Teacher selection can be added later */}
+                <select
+                    value={formData.teacher || ""}
+                    onChange={(e) => setFormData({ ...formData, teacher: e.target.value })}
+                    required
+                >
+                    <option value="" disabled>Select a Teacher</option>
+                    {teachers.length > 0 ? (
+                        teachers.map((teacher) => (
+                            <option key={teacher._id} value={teacher._id}>
+                                {teacher.teacherName}
+                            </option>
+                        ))
+                    ) : (
+                        <option disabled>Loading teachers...</option>
+                    )}
+                </select>
+
+
+
                 <button type="submit">Create Course</button>
             </form>
         </div>
