@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Ensure Bootstrap is imported
 
 const EditLesson = () => {
     const { id } = useParams();
@@ -35,24 +36,33 @@ const EditLesson = () => {
     };
 
     return (
-        <div>
-            <h1>Edit Lesson</h1>
-            {error && <p className="error">{error}</p>}
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Lesson Title"
-                    value={lesson.lessonTitle}
-                    onChange={(e) => setLesson({ ...lesson, lessonTitle: e.target.value })}
-                    required
-                />
-                <textarea
-                    placeholder="Lesson Content"
-                    value={lesson.lessonContent}
-                    onChange={(e) => setLesson({ ...lesson, lessonContent: e.target.value })}
-                    required
-                />
-                <button type="submit">Update Lesson</button>
+        <div className="container mt-4">
+            <h1 className="text-center">Edit Lesson</h1>
+            {error && <div className="alert alert-danger">{error}</div>}
+
+            <form onSubmit={handleSubmit} className="bg-light p-4 rounded shadow">
+                <div className="mb-3">
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Lesson Title"
+                        value={lesson.lessonTitle}
+                        onChange={(e) => setLesson({ ...lesson, lessonTitle: e.target.value })}
+                        required
+                    />
+                </div>
+                <div className="mb-3">
+                    <textarea
+                        className="form-control"
+                        placeholder="Lesson Content"
+                        value={lesson.lessonContent}
+                        onChange={(e) => setLesson({ ...lesson, lessonContent: e.target.value })}
+                        required
+                    />
+                </div>
+                <button type="submit" className="btn btn-primary">
+                    Update Lesson
+                </button>
             </form>
         </div>
     );

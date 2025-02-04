@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-// import '../../css/CreateQuizzes.css'; // Add your own styles here
+import 'bootstrap/dist/css/bootstrap.min.css'; // Ensure Bootstrap is imported
 
 const CreateQuizzes = () => {
     const [quiz, setQuiz] = useState({
@@ -48,46 +48,60 @@ const CreateQuizzes = () => {
     };
 
     return (
-        <div>
-            <h1>Create a New Quiz</h1>
-            {error && <p className="error">{error}</p>}
-            {success && <p className="success">Quiz created successfully!</p>}
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Quiz Question"
-                    value={quiz.quizQuestion}
-                    onChange={(e) => setQuiz({ ...quiz, quizQuestion: e.target.value })}
-                    required
-                />
-                <h3>Quiz Options</h3>
+        <div className="container mt-4">
+            <h1 className="text-center">Create a New Quiz</h1>
+            {error && <p className="text-danger text-center">{error}</p>}
+            {success && <p className="text-success text-center">Quiz created successfully!</p>}
+            <form onSubmit={handleSubmit} className="bg-light p-4 rounded shadow">
+                <div className="mb-3">
+                    <label className="form-label">Quiz Question</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Enter the quiz question"
+                        value={quiz.quizQuestion}
+                        onChange={(e) => setQuiz({ ...quiz, quizQuestion: e.target.value })}
+                        required
+                    />
+                </div>
+                <label className="form-label">Quiz Options</label>
                 {quiz.quizOptions.map((option, index) => (
-                    <div key={index}>
+                    <div key={index} className="mb-3 d-flex align-items-center">
+                        <label className="form-label me-2">{`Option ${index + 1}`}</label>
                         <input
                             type="text"
-                            placeholder={`Option ${index + 1}`}
+                            className="form-control me-2"
+                            placeholder={`Enter option ${index + 1}`}
                             value={option}
                             onChange={(e) => handleOptionChange(index, e.target.value)}
                             required
                         />
-                        <button type="button" onClick={() => removeOption(index)}>Remove</button>
+                        <button type="button" className="btn btn-danger" onClick={() => removeOption(index)}>Remove</button>
                     </div>
                 ))}
-                <button type="button" onClick={addOption}>Add Option</button>
-                <input
-                    type="text"
-                    placeholder="Quiz Answer"
-                    value={quiz.quizAnswer}
-                    onChange={(e) => setQuiz({ ...quiz, quizAnswer: e.target.value })}
-                    required
-                />
-                <input
-                    type="text"
-                    placeholder="Quiz Result"
-                    value={quiz.quizResult}
-                    onChange={(e) => setQuiz({ ...quiz, quizResult: e.target.value })}
-                />
-                <button type="submit">Create Quiz</button>
+                <button type="button" className="btn btn-secondary mb-3" onClick={addOption}>Add Option</button>
+                <div className="mb-3">
+                    <label className="form-label">Quiz Answer</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Enter the correct answer"
+                        value={quiz.quizAnswer}
+                        onChange={(e) => setQuiz({ ...quiz, quizAnswer: e.target.value })}
+                        required
+                    />
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Quiz Result</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Enter the quiz result"
+                        value={quiz.quizResult}
+                        onChange={(e) => setQuiz({ ...quiz, quizResult: e.target.value })}
+                    />
+                </div>
+                <button type="submit" className="btn btn-primary">Create Quiz</button>
             </form>
         </div>
     );

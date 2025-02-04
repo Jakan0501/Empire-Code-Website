@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import './QuizDesign.css';
 
 const QuizManagement = () => {
   const [quizzes, setQuizzes] = useState([]);
@@ -29,22 +30,28 @@ const QuizManagement = () => {
   };
 
   return (
-    <div>
-      <h1>Manage Quizzes</h1>
-      {error && <p className="error">{error}</p>}
-      <Link to="/create-quiz">
-        <button>Create New Quiz</button>
-      </Link>
-      <ul>
+    <div className="container mt-4">
+      <h1 className="text-center">Manage Quizzes</h1>
+      {error && <p className="text-danger text-center">{error}</p>}
+      <div className="text-center mb-4">
+        <Link to="/create-quiz">
+          <button className="btn btn-primary">Create New Quiz</button>
+        </Link>
+      </div>
+      <ul className="list-group">
         {quizzes.map((quiz) => (
-          <li key={quiz._id}>
-            <h3>{quiz.quizQuestion}</h3>
-            <p>Answer: {quiz.quizAnswer}</p>
-            <p>Result: {quiz.quizResult}</p>
-            <Link to={`/quizzes/update/${quiz._id}`}>
-              <button>Edit</button>
-            </Link>
-            <button onClick={() => handleDelete(quiz._id)}>Delete</button>
+          <li key={quiz._id} className="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <h3>{quiz.quizQuestion}</h3>
+              <p><strong>Answer:</strong> {quiz.quizAnswer}</p>
+              <p><strong>Result:</strong> {quiz.quizResult}</p>
+            </div>
+            <div>
+              <Link to={`/quizzes/update/${quiz._id}`}>
+                <button className="btn btn-warning me-2">Edit</button>
+              </Link>
+              <button className="btn btn-danger" onClick={() => handleDelete(quiz._id)}>Delete</button>
+            </div>
           </li>
         ))}
       </ul>
