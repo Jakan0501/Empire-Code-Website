@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import './QuizDesign.css'; // Import your QuizDesign.css
 
 const EditQuiz = () => {
     const { id } = useParams(); // Get the quiz ID from the URL
@@ -64,46 +65,60 @@ const EditQuiz = () => {
     };
 
     return (
-        <div>
-            <h1>Edit Quiz</h1>
-            {error && <p className="error">{error}</p>}
-            {success && <p className="success">Quiz updated successfully!</p>}
+        <div className="container mt-4">
+            <h1 className="text-center">Edit Quiz</h1>
+            {error && <p className="text-danger text-center">{error}</p>}
+            {success && <p className="text-success text-center">Quiz updated successfully!</p>}
             <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Quiz Question"
-                    value={quiz.quizQuestion}
-                    onChange={(e) => setQuiz({ ...quiz, quizQuestion: e.target.value })}
-                    required
-                />
+                <div className="mb-3">
+                    <label className="form-label">Quiz Question</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Enter the quiz question"
+                        value={quiz.quizQuestion}
+                        onChange={(e) => setQuiz({ ...quiz, quizQuestion: e.target.value })}
+                        required
+                    />
+                </div>
                 <h3>Quiz Options</h3>
                 {quiz.quizOptions.map((option, index) => (
-                    <div key={index}>
+                    <div key={index} className="mb-3 d-flex align-items-center">
+                        <label className="form-label me-2">{`Option ${index + 1}`}</label>
                         <input
                             type="text"
-                            placeholder={`Option ${index + 1}`}
+                            className="form-control me-2"
+                            placeholder={`Enter option ${index + 1}`}
                             value={option}
                             onChange={(e) => handleOptionChange(index, e.target.value)}
                             required
                         />
-                        <button type="button" onClick={() => removeOption(index)}>Remove</button>
+                        <button type="button" className="btn btn-danger" onClick={() => removeOption(index)}>Remove</button>
                     </div>
                 ))}
-                <button type="button" onClick={addOption}>Add Option</button>
-                <input
-                    type="text"
-                    placeholder="Quiz Answer"
-                    value={quiz.quizAnswer}
-                    onChange={(e) => setQuiz({ ...quiz, quizAnswer: e.target.value })}
-                    required
-                />
-                <input
-                    type="text"
-                    placeholder="Quiz Result"
-                    value={quiz.quizResult}
-                    onChange={(e) => setQuiz({ ...quiz, quizResult: e.target.value })}
-                />
-                <button type="submit">Update Quiz</button>
+                <button type="button" className="btn btn-secondary mb-3" onClick={addOption}>Add Option</button>
+                <div className="mb-3">
+                    <label className="form-label">Quiz Answer</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Enter the correct answer"
+                        value={quiz.quizAnswer}
+                        onChange={(e) => setQuiz({ ...quiz, quizAnswer: e.target.value })}
+                        required
+                    />
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Quiz Result</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Enter the quiz result"
+                        value={quiz.quizResult}
+                        onChange={(e) => setQuiz({ ...quiz, quizResult: e.target.value })}
+                    />
+                </div>
+                <button type="submit" className="btn btn-primary">Update Quiz</button>
             </form>
         </div>
     );

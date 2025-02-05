@@ -23,6 +23,7 @@ import EditQuiz from './pages/Quizzes/EditQuiz';
 import CreateLesson from './pages/Lessons/CreateLesson';
 import LessonManagement from './pages/Lessons/LessonManagement';
 import EditLesson from './pages/Lessons/EditLesson';
+import ViewLesson from './pages/Lessons/ViewLesson.jsx';
 
 
 
@@ -53,6 +54,7 @@ function App() {
         <Route path="/create-lesson" element={<CreateLesson />} />
         <Route path="/lessons-management" element={<LessonManagement />} />
         <Route path="/lessons/update/:id" element={<EditLesson />} />
+        <Route path="/view-lesson/:id" element={<ViewLesson />} />
 
         <Route path="/createCourse" element={<CreateCourse />}/>
       </Routes>

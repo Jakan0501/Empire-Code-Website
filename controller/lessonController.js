@@ -1,79 +1,177 @@
-import Lesson from '../models/lessonModel.js'
-import mongoose from 'mongoose'
+import Lesson from '../models/lessonModel.js';
+import mongoose from 'mongoose';
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
 
+// Set up multer storage to save files in "PDF_files" folder
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const dir = 'PDF_files/';
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir, { recursive: true }); // Ensure folder exists
+        }
+        cb(null, dir);
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}-${file.originalname}`);
+    }
+});
 
-export const getLessons = async(req, res) => {
+const upload = multer({ storage }).single('lessonPdf'); // No file size limit
 
+// Get all lessons
+export const getLessons = async (req, res) => {
     try {
-        const lessons = await Lesson.find({})
-        res.status(200).json({ success: true, data: lessons })
+        const lessons = await Lesson.find({});
+        res.status(200).json({ success: true, data: lessons });
     } catch (error) {
-        console.log('error in fetching lessons:', error.message)
-        res.status(500).json({success: false, message:'Server Error'})
+        console.error('Error fetching lessons:', error.message);
+        res.status(500).json({ success: false, message: 'Server Error' });
     }
-}
+};
 
-export const createLesson = async(req, res) => {
-    const lesson = req.body;
+// Create a lesson with PDF upload
+export const createLesson = async (req, res) => {
+    upload(req, res, async (err) => {
+        if (err) {
+            return res.status(400).json({ success: false, message: 'Error uploading PDF' });
+        }
 
-    if (!lesson.lessonTitle){
-        return res.status(400).json({ success:false, message: 'Please provide all fields'})
-    }
-    const newLesson = new Lesson(lesson)
+        try {
+            const { lessonTitle, lessonContent } = req.body;
 
-    try{
-        await newLesson.save();
-        res.status(201).json({ success: true, data: newLesson})
-    } catch (error){
-        console.error('Error in Create lesson:', error.message)
-        res.status(500).json({ success: false, message: 'Server Error'})
-    }
-} 
+            if (!lessonTitle) {
+                return res.status(400).json({ success: false, message: 'Lesson title is required' });
+            }
 
-export const updateLesson = async(req, res) => {
-    const{id} = req.params;
+            const newLesson = new Lesson({
+                lessonTitle,
+                lessonContent,
+                lessonPdf: req.file ? req.file.filename : null // Store filename
+            });
 
-    const lesson = req.body;
+            await newLesson.save();
+            res.status(201).json({ success: true, data: newLesson });
+        } catch (error) {
+            console.error('Error creating lesson:', error.message);
+            res.status(500).json({ success: false, message: 'Server Error' });
+        }
+    });
+};
 
-    if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({success: false, message:'Invalid Lesson Id'})
-    }
-
-    try {
-        const updatedLesson = await Lesson.findByIdAndUpdate(id, lesson, {new: true})
-        res.status(200).json({ success: true, data: updatedLesson})
-    } catch (error) {
-        res.status(500).json({ success: false, message: 'Server Error'})
-    }
-}
-
-export const deleteLesson = async(req, res) =>{
-    const {id} = req.params
-    
-    try {
-        await Lesson.findByIdAndDelete(id);
-        res.status(200).json({ success: true, message:'Lesson Deleted'})
-    } catch (error) {
-        console.log('error in deleting lessons:', error.message)
-        res.status(500).json({ success: false, message:'Server Error'})
-    }
-}
-
+// Get lesson by ID
 export const getLessonById = async (req, res) => {
-    const { id } = req.params;
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({ success: false, message: 'Invalid Lesson Id' });
-    }
-
     try {
+        const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ success: false, message: 'Invalid Lesson Id' });
+        }
+
         const lesson = await Lesson.findById(id);
         if (!lesson) {
             return res.status(404).json({ success: false, message: 'Lesson not found' });
         }
+
         res.status(200).json({ success: true, data: lesson });
     } catch (error) {
         console.error('Error fetching lesson by ID:', error.message);
+        res.status(500).json({ success: false, message: 'Server Error' });
+    }
+};
+
+// Serve PDF file
+export const getLessonPdf = async (req, res) => {
+    try {
+        const { id } = req.params;
+        console.log("Requested PDF:", id);
+
+        const lesson = await Lesson.findOne({ lessonPdf: id }); // Find by filename
+        if (!lesson) {
+            return res.status(404).json({ success: false, message: 'Lesson not found' });
+        }
+
+        const filePath = path.join('PDF_files', id);
+        console.log("Serving PDF from:", filePath);
+
+        if (!fs.existsSync(filePath)) {
+            return res.status(404).json({ success: false, message: 'PDF file not found' });
+        }
+
+        res.sendFile(path.resolve(filePath));
+    } catch (error) {
+        console.error('Error fetching PDF:', error.message);
+        res.status(500).json({ success: false, message: 'Server Error' });
+    }
+};
+
+// Update lesson (including optional PDF update)
+export const updateLesson = async (req, res) => {
+    upload(req, res, async (err) => {
+        if (err) {
+            return res.status(400).json({ success: false, message: 'Error uploading PDF' });
+        }
+
+        try {
+            const { id } = req.params;
+
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                return res.status(404).json({ success: false, message: 'Invalid Lesson Id' });
+            }
+
+            const lesson = await Lesson.findById(id);
+            if (!lesson) {
+                return res.status(404).json({ success: false, message: 'Lesson not found' });
+            }
+
+            // Delete old PDF file if a new one is uploaded
+            if (req.file && lesson.lessonPdf) {
+                const oldFilePath = path.join('PDF_files', lesson.lessonPdf);
+                if (fs.existsSync(oldFilePath)) {
+                    fs.unlinkSync(oldFilePath);
+                }
+            }
+
+            const updatedLesson = await Lesson.findByIdAndUpdate(
+                id,
+                {
+                    ...req.body,
+                    lessonPdf: req.file ? req.file.filename : lesson.lessonPdf
+                },
+                { new: true }
+            );
+
+            res.status(200).json({ success: true, data: updatedLesson });
+        } catch (error) {
+            console.error('Error updating lesson:', error.message);
+            res.status(500).json({ success: false, message: 'Server Error' });
+        }
+    });
+};
+
+// Delete lesson (and remove PDF file)
+export const deleteLesson = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const lesson = await Lesson.findById(id);
+
+        if (!lesson) {
+            return res.status(404).json({ success: false, message: 'Lesson not found' });
+        }
+
+        // Delete the associated PDF file
+        if (lesson.lessonPdf) {
+            const filePath = path.join('PDF_files', lesson.lessonPdf);
+            if (fs.existsSync(filePath)) {
+                fs.unlinkSync(filePath);
+            }
+        }
+
+        await Lesson.findByIdAndDelete(id);
+        res.status(200).json({ success: true, message: 'Lesson Deleted' });
+    } catch (error) {
+        console.error('Error deleting lesson:', error.message);
         res.status(500).json({ success: false, message: 'Server Error' });
     }
 };

@@ -1,0 +1,59 @@
+
+
+
+
+
+/* EDIT QUIZ */
+/* General styling for the container */
+.container {
+    max-width: 800px; /* Increased width for better readability */
+    margin: auto; /* Center the container */
+}
+
+/* Style for the form */
+form {
+    background-color: #f8f9fa; /* Light background for the form */
+    padding: 20px; /* Padding around the form */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Label styling to prevent wrapping */
+.form-label {
+    white-space: nowrap; /* Prevents the label from wrapping to a new line */
+    display: block; /* Ensures it's treated as a block element */
+    margin-bottom: 5px; /* Space below the label */
+}
+
+/* Error and success message styling */
+.text-danger {
+    margin-top: 10px;
+}
+
+.text-success {
+    margin-top: 10px;
+}
+
+
+/* Style for the form input fields */
+/* Style for the form input fields */
+.form-control {
+    font-size: 1.7rem; /* Increase font size for text inside the text boxes */
+    height: 50px; /* Increase height of the text boxes */
+    width: 98%; /* Set width to 100% of the parent container */
+    box-sizing: border-box; /* Ensure padding is included in the width */
+}
+
+/* Style for the option input fields specifically, if needed */
+.form-control.me-2 {
+    height: 50px; /* Increase height for option input fields */
+    width: 100%; /* Set width to 100% of the parent container */
+}
+
+/* Additional styling for the quiz question input */
+.quiz-question-input {
+    height: 60px; /* Increase height for quiz question input */
+    width: 100%; /* Set width to 100% of the parent container */
+}
+
+
