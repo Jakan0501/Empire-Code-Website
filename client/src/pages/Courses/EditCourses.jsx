@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import CourseForm from './CoursesForm';
 
-const CreateCourse = () => {
+const UpdateCourse = () => {
+    const { courseId } = useParams();
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         courseTitle: '',
         courseDescription: '',
@@ -12,43 +14,45 @@ const CreateCourse = () => {
     });
     const [teachers, setTeachers] = useState([]);
     const [error, setError] = useState(null);
-    const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchTeachers = async () => {
+        const fetchCourseData = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/api/teacher/get');
-                setTeachers(response.data);
+                const courseResponse = await axios.get(`http://localhost:8000/api/course/get/${courseId}`);
+                const teachersResponse = await axios.get('http://localhost:8000/api/teacher/get');
+                setFormData(courseResponse.data);
+                setTeachers(teachersResponse.data);
             } catch (err) {
-                setError('Failed to load teachers');
+                setError('Failed to fetch course data');
             }
         };
-        fetchTeachers();
-    }, []);
+        fetchCourseData();
+    }, [courseId]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8000/api/course/create', formData);
+            await axios.put(`http://localhost:8000/api/course/update/${courseId}`, formData);
             navigate('/courses');
         } catch (err) {
             const message = err.response ? err.response.data.message : err.message;
-            setError(`Failed to create course: ${message}`);
+            setError(`Failed to update course: ${message}`);
         }
     };
 
     return (
         <div className="container">
-            <h1>Create Course</h1>
+            <h1>Update Course</h1>
             <CourseForm
                 formData={formData}
                 setFormData={setFormData}
                 teachers={teachers}
                 error={error}
                 onSubmit={handleSubmit}
+                mode="update"
             />
         </div>
     );
 };
 
-export default CreateCourse;
+export default UpdateCourse;

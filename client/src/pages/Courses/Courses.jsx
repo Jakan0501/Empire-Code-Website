@@ -82,6 +82,15 @@ const Courses = () => {
         fetchCourses();
     }, []);
 
+    const handleDelete = async (courseId) => {
+        try {
+          await axios.delete(`http://localhost:8000/api/course/delete/${courseId}`);
+          setCourses(courses.filter(course => course._id !== courseId)); // Remove from state
+        } catch (err) {
+          console.error('Error deleting course:', err);
+        }
+      };
+
     return (
         <section className="courses">
             <div className="header-container">
@@ -114,8 +123,12 @@ const Courses = () => {
                         <p>{course.courseDescription}</p>
                         <div className="button-group">
                             <button className="view-btn">View</button>
-                            <button className="update-btn">Update</button>
-                            <button className="delete-btn">Delete</button>
+                            <button onClick={() => navigate(`/courses/update/${course._id}`)} className="update-btn">
+                                Update
+                            </button>
+                            <button onClick={() => handleDelete(course._id)} className="delete-btn">
+                                Delete
+                            </button>
                         </div>
                     </div>
                 ))}
