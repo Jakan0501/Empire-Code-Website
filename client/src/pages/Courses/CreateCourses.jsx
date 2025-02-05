@@ -18,16 +18,17 @@ const CreateCourse = () => {
         const fetchTeachers = async () => {
             try {
                 const response = await axios.get('http://localhost:8000/api/teacher/get');
-                console.log('Fetched teachers:', response.data); // Log the fetched data
-                setTeachers(response.data); // Ensure this is an array
+                console.log('Fetched teachers:', response.data); // Log full response
+                setTeachers(response.data);
             } catch (err) {
                 console.error('Error fetching teachers:', err);
                 setError('Failed to load teachers');
             }
         };
-
+    
         fetchTeachers();
     }, []);
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -41,6 +42,7 @@ const CreateCourse = () => {
             console.error('Error details:', err);
         }
     };
+    console.log('Teacher object:', teachers[0]); // Log the first teacher
 
     return (
         <div>
@@ -67,6 +69,7 @@ const CreateCourse = () => {
                     required
                     min="0"
                 />
+                
                 <select
                     value={formData.teacher || ""}
                     onChange={(e) => setFormData({ ...formData, teacher: e.target.value })}
