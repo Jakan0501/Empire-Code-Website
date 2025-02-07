@@ -29,7 +29,6 @@ const Navbar = ({ toggleSidebar }) => {
           <div id="menu-btn" className="fas fa-bars" onClick={toggleSidebar}></div>
           <div id="search-btn" className="fas fa-search"></div>
           <div id="user-btn" className="fas fa-user" onClick={toggleProfileOptions}></div>
-          <div id="toggle-btn" className="fas fa-sun"></div>
         </div>
 
         {/* Conditionally render profile options */}

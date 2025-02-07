@@ -19,12 +19,12 @@ const lessonSchema = new mongoose.Schema(
     },
     course: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Course",
-    }, // Reference to Course
+      ref: "Course", // Reference to Course
+    },
     quizzes: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Quiz",
+        ref: "Quiz", // Reference to Quiz
       },
     ],
     lessonPdf: {

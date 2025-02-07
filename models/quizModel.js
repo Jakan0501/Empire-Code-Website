@@ -5,7 +5,7 @@ const quizSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    quizOptions: { // New field for storing multiple options
+    quizOptions: {
         type: [String], // Array of strings
     },
     quizAnswer: {
@@ -17,7 +17,7 @@ const quizSchema = new mongoose.Schema({
     },
     lesson: { 
         type: mongoose.Schema.Types.ObjectId, 
-        ref: "Lesson" 
+        ref: "Lesson" // Reference to Lesson model
     },
 }, {
     timestamps: true // createdAt, updatedAt
