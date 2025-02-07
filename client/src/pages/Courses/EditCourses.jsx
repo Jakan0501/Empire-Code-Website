@@ -18,10 +18,12 @@ const UpdateCourse = () => {
     useEffect(() => {
         const fetchCourseData = async () => {
             try {
-                const courseResponse = await axios.get(`http://localhost:8000/api/course/get/${courseId}`);
-                const teachersResponse = await axios.get('http://localhost:8000/api/teacher/get');
-                setFormData(courseResponse.data);
-                setTeachers(teachersResponse.data);
+                const [courseResponse, teachersResponse] = await Promise.all([
+                    axios.get(`http://localhost:8000/api/course/get/${courseId}`),
+                    axios.get('http://localhost:8000/api/teacher/get'),
+                ]);
+                setFormData(courseResponse.data.data);
+                setTeachers(teachersResponse.data.data);
             } catch (err) {
                 setError('Failed to fetch course data');
             }
