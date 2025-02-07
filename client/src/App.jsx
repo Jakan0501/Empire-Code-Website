@@ -10,6 +10,7 @@ import Quizzes from './pages/Quizzes/Quizzes.jsx';
 
 
 import CreateCourse from './pages/Courses/CreateCourses.jsx';
+import UpdateCourse from './pages/Courses/EditCourses.jsx'
 
 import Navbar from './components/Navbar'; // Adjust the path as necessary
 import Sidebar from './components/Sidebar.jsx';
@@ -59,6 +60,8 @@ function App() {
         <Route path="/quiz/:lessonId" element={<Quizzes />} /> {/* This should show quizzes for a specific lesson */}
 
         <Route path="/createCourse" element={<CreateCourse />}/>
+        <Route path="/courses/update/:id" element={<UpdateCourse />}/>
+
       </Routes>
     </BrowserRouter>
   );
