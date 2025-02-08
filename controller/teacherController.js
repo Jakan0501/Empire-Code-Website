@@ -1,6 +1,7 @@
 import Teacher from '../models/teacherModel.js'
 import mongoose from 'mongoose'
-
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 export const getTeachers = async(req, res) => {
 
@@ -16,7 +17,9 @@ export const getTeachers = async(req, res) => {
 export const createTeacher = async(req, res) => {
     const teacher = req.body;
 
-    if (!teacher.teacherName || !teacher.teacherPhone ||!teacher.teacherEmail){
+    if (!teacher.teacherName || !teacher.teacherPhone ||!teacher.teacherEmail
+        ||!teacher.teacherPassword
+    ){
         return res.status(400).json({ success:false, message: 'Please provide all fields'})
     }
     const newTeacher = new Teacher(teacher)
@@ -58,3 +61,37 @@ export const deleteTeacher = async(req, res) =>{
         res.status(500).json({ success: false, message:'Server Error'})
     }
 }
+
+export const loginTeacher = async (req, res) => {
+    const { teacherEmail, teacherPassword } = req.body;
+
+    try {
+        // Find the teacher by email
+        const teacher = await Teacher.findOne({ teacherEmail });
+
+        // Check if teacher exists
+        if (!teacher) {
+            return res.status(401).json({ message: 'Invalid email or password' });
+        }
+
+        // Compare the entered password with the hashed password
+        const isMatch = await bcrypt.compare(teacherPassword, teacher.teacherPassword);
+
+        if (!isMatch) {
+            return res.status(401).json({ message: 'Invalid email or password' });
+        }
+
+        // Generate a token
+        const token = jwt.sign({ id: teacher._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        // Respond with teacher info and token
+        res.status(200).json({
+            _id: teacher._id,
+            teacherName: teacher.teacherName,
+            teacherEmail: teacher.teacherEmail,
+            token,
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
+};

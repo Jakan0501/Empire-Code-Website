@@ -60,6 +60,9 @@ const Login = () => {
                 <div className="register-link">
                     Don't have an account? <Link to="/register">Register now</Link>
                 </div>
+                <div className="register-link">
+                    You are a teacher? <Link to='/teacherLogin'>Click here</Link>
+                </div>
             </form>
         </section>
     );
