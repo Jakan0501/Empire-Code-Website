@@ -39,16 +39,17 @@ export const createLesson = async (req, res) => {
         }
 
         try {
-            const { lessonTitle, lessonContent } = req.body;
+            const { lessonTitle, lessonContent, course } = req.body;
 
-            if (!lessonTitle) {
-                return res.status(400).json({ success: false, message: 'Lesson title is required' });
+            if (!lessonTitle || !course) {
+                return res.status(400).json({ success: false, message: 'Lesson title and course are required' });
             }
 
             const newLesson = new Lesson({
                 lessonTitle,
                 lessonContent,
-                lessonPdf: req.file ? req.file.filename : null // Store filename
+                course, // Store course reference
+                lessonPdf: req.file ? req.file.filename : null
             });
 
             await newLesson.save();
@@ -59,6 +60,7 @@ export const createLesson = async (req, res) => {
         }
     });
 };
+
 
 // Get lesson by ID
 export const getLessonById = async (req, res) => {
@@ -115,6 +117,7 @@ export const updateLesson = async (req, res) => {
 
         try {
             const { id } = req.params;
+            const { course } = req.body;
 
             if (!mongoose.Types.ObjectId.isValid(id)) {
                 return res.status(404).json({ success: false, message: 'Invalid Lesson Id' });
@@ -125,7 +128,6 @@ export const updateLesson = async (req, res) => {
                 return res.status(404).json({ success: false, message: 'Lesson not found' });
             }
 
-            // Delete old PDF file if a new one is uploaded
             if (req.file && lesson.lessonPdf) {
                 const oldFilePath = path.join('PDF_files', lesson.lessonPdf);
                 if (fs.existsSync(oldFilePath)) {
@@ -137,6 +139,7 @@ export const updateLesson = async (req, res) => {
                 id,
                 {
                     ...req.body,
+                    course, // Allow course update
                     lessonPdf: req.file ? req.file.filename : lesson.lessonPdf
                 },
                 { new: true }
@@ -149,6 +152,7 @@ export const updateLesson = async (req, res) => {
         }
     });
 };
+
 
 // Delete lesson (and remove PDF file)
 export const deleteLesson = async (req, res) => {
