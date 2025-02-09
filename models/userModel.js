@@ -3,11 +3,12 @@ import bcrypt from "bcryptjs"; // For password hashing
 import jwt from 'jsonwebtoken'; // Import jsonwebtoken
 
 // Define the user schema
+
 const userSchema = new mongoose.Schema(
   {
     userName: {
       type: String,
-      required: true, // Make username required
+      required: true,
     },
     userPassword: {
       type: String,
@@ -16,10 +17,14 @@ const userSchema = new mongoose.Schema(
     userEmail: {
       type: String,
       required: true,
-      unique: true, // Ensure email is unique
+      unique: true,
     },
     userPhone: {
       type: Number,
+    },
+    profilePicture: { // New field for storing profile picture URL
+      type: String,
+      default: '', // Default is empty string
     },
     registrationDate: {
       type: Date,
@@ -33,9 +38,10 @@ const userSchema = new mongoose.Schema(
     ],
   },
   {
-    timestamps: true, // Automatically manage createdAt and updatedAt fields
+    timestamps: true,
   }
 );
+
 
 // Middleware to hash the password before saving the user
 userSchema.pre("save", async function (next) {

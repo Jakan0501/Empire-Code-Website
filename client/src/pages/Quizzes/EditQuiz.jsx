@@ -9,8 +9,10 @@ const EditQuiz = () => {
         quizQuestion: '',
         quizOptions: [''], // Initialize with one empty option
         quizAnswer: '',
-        quizResult: ''
+        quizResult: '',
+        lesson: '' // New field for the selected lesson
     });
+    const [lessons, setLessons] = useState([]); // State to hold lessons
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
     const navigate = useNavigate();
@@ -28,6 +30,21 @@ const EditQuiz = () => {
 
         fetchQuiz();
     }, [id]);
+
+    // Fetch lessons from the API
+    useEffect(() => {
+        const fetchLessons = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/api/lesson/get');
+                setLessons(response.data.data);
+            } catch (error) {
+                console.error('Error fetching lessons:', error);
+                setError('Failed to fetch lessons.');
+            }
+        };
+
+        fetchLessons();
+    }, []);
 
     // Function to handle form submission
     const handleSubmit = async (e) => {
@@ -97,6 +114,24 @@ const EditQuiz = () => {
                     </div>
                 ))}
                 <button type="button" className="btn btn-secondary mb-3" onClick={addOption}>Add Option</button>
+
+                <div className="mb-3">
+                    <label className="form-label">Select Lesson</label>
+                    <select
+                        className="form-select"
+                        value={quiz.lesson}
+                        onChange={(e) => setQuiz({ ...quiz, lesson: e.target.value })}
+                        required
+                    >
+                        <option value="">Choose a lesson...</option>
+                        {lessons.map((lesson) => (
+                            <option key={lesson._id} value={lesson._id}>
+                                {lesson.lessonTitle}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
                 <div className="mb-3">
                     <label className="form-label">Quiz Answer</label>
                     <input

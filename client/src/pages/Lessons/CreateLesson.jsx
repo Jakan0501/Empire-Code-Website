@@ -1,15 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Ensure Bootstrap is imported
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const CreateLesson = () => {
-    const [lesson, setLesson] = useState({ lessonTitle: '', lessonContent: '' });
+    const [lesson, setLesson] = useState({ 
+        lessonTitle: '', 
+        lessonContent: '',
+        course: '' // Add course field
+    });
     const [pdfFile, setPdfFile] = useState(null);
+    const [courses, setCourses] = useState([]); // Store courses
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+
+    // ✅ Fetch courses when the component loads
+    useEffect(() => {
+        const fetchCourses = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/api/course/get');
+                if (response.data.success && Array.isArray(response.data.data)) {
+                    setCourses(response.data.data);
+                } else {
+                    setError('Unexpected response structure for courses.');
+                }
+            } catch (error) {
+                setError('Failed to load courses.');
+            }
+        };
+
+        fetchCourses();
+    }, []);
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -42,7 +65,8 @@ const CreateLesson = () => {
         const formData = new FormData();
         formData.append('lessonTitle', lesson.lessonTitle);
         formData.append('lessonContent', lesson.lessonContent);
-        
+        formData.append('course', lesson.course); // ✅ Include selected course
+
         if (pdfFile) {
             formData.append('lessonPdf', pdfFile);
         }
@@ -53,7 +77,7 @@ const CreateLesson = () => {
             });
 
             setSuccess('Lesson created successfully!');
-            setLesson({ lessonTitle: '', lessonContent: '' });
+            setLesson({ lessonTitle: '', lessonContent: '', course: '' });
             setPdfFile(null);
 
             setTimeout(() => navigate('/lessons-management'), 2000);
@@ -91,6 +115,25 @@ const CreateLesson = () => {
                         required
                     />
                 </div>
+                
+                {/* ✅ Course Dropdown */}
+                <div className="mb-3">
+                    <label className="form-label">Select Course</label>
+                    <select 
+                        className="form-control" 
+                        value={lesson.course} 
+                        onChange={(e) => setLesson({ ...lesson, course: e.target.value })} 
+                        required
+                    >
+                        <option value="">-- Select Course --</option>
+                        {courses.map((course) => (
+                            <option key={course._id} value={course._id}>
+                                {course.courseTitle}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
                 <div className="mb-3">
                     <input
                         type="file"

@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
-import FilePreview from "../../components/FilePreview.jsx";
 
 const ViewLesson = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // Get the lesson ID from the URL parameters
   const [lesson, setLesson] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -71,6 +70,11 @@ const ViewLesson = () => {
       ) : (
         <p>No PDF available for this lesson.</p>
       )}
+
+      {/* Link to take the quiz for this lesson */}
+      <Link to={`/quiz/${lesson._id}`}>
+        <button className="btn btn-primary">Take the Quiz</button>
+      </Link>
 
       <Link to="/lessons-management">
         <button>Back to Lessons</button>

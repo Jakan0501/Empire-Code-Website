@@ -1,28 +1,24 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
-import "../../css/Quizzes.css";
+import { useParams } from "react-router-dom";
+import "../../css/Quizzes.css"; // Add custom CSS for styling
 
-const Quizzes = () => {
+const QuizPage = () => {
+  const { lessonId } = useParams(); // Get lessonId from the URL parameters
   const [questions, setQuestions] = useState([]);
   const [userAnswers, setUserAnswers] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(null);
-  const location = useLocation();
-
-  // Extract lesson ID from query parameters
-  const query = new URLSearchParams(location.search);
-  const lessonId = query.get("lessonId");
 
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/quiz/get", {
-          params: { lessonId }, // Pass lesson ID to fetch quizzes
-        });
-        if (response.data && response.data.data) {
+        const response = await axios.get(
+          `http://localhost:8000/api/quiz/getByLesson/${lessonId}`
+        );
+        if (response.data.success && response.data.data) {
           setQuestions(response.data.data);
-          setUserAnswers(Array(response.data.data.length).fill(""));
+          setUserAnswers(Array(response.data.data.length).fill("")); // Initialize answers as empty strings
         } else {
           console.error("Unexpected response structure:", response.data);
         }
@@ -37,20 +33,20 @@ const Quizzes = () => {
     }
   }, [lessonId]);
 
-  const handleChange = (index, value) => {
+  const handleAnswerChange = (index, value) => {
     const updatedAnswers = [...userAnswers];
-    updatedAnswers[index] = value;
+    updatedAnswers[index] = value; // Update the specific answer
     setUserAnswers(updatedAnswers);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    setSubmitted(true); // Mark quiz as submitted
   };
 
   return (
     <section className="quiz">
-      <h1>Quizzes</h1>
+      <h1>Quiz for this Lesson</h1>
       {error && <p className="error">{error}</p>}
       <form onSubmit={handleSubmit}>
         {questions.map((q, index) => (
@@ -61,15 +57,12 @@ const Quizzes = () => {
                 <div key={i} className="option">
                   <input
                     type="radio"
-                    name={`question-${index}`}
+                    name={`question-${index}`} // Ensure unique names for each question
                     value={option}
-                    checked={userAnswers[index] === option}
-                    onChange={() => handleChange(index, option)}
-                    disabled={submitted}
+                    onChange={() => handleAnswerChange(index, option)} // Update state when an option is selected
+                    disabled={submitted} // Disable inputs once the quiz is submitted
                   />
-                  <span>
-                    {`${String.fromCharCode(97 + i)})`} {option}
-                  </span>
+                  <span>{`${String.fromCharCode(97 + i)})`} {option}</span>
                 </div>
               ))}
             </div>
@@ -100,4 +93,4 @@ const Quizzes = () => {
   );
 };
 
-export default Quizzes;
+export default QuizPage;

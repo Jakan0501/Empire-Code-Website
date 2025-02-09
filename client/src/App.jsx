@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
+import { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Home from './Home.jsx'
 import Login from './Login.jsx'
@@ -15,23 +15,19 @@ import UpdateCourse from './pages/Courses/EditCourses.jsx'
 import Navbar from './components/Navbar'; // Adjust the path as necessary
 import Sidebar from './components/Sidebar.jsx';
 
-
-// Importing Quizz CRUDS:
+// Importing Quiz CRUDS:
 import CreateQuizzes from './pages/Quizzes/Create_Quizzes.jsx';
 import QuizManagement from './pages/Quizzes/QuizManagement'; 
 import EditQuiz from './pages/Quizzes/EditQuiz'; 
+import QuizPage from './pages/Quizzes/QuizPage';
 
-//Importing Lesson CRUDS:
+// Importing Lesson CRUDS:
 import CreateLesson from './pages/Lessons/CreateLesson';
 import LessonManagement from './pages/Lessons/LessonManagement';
 import EditLesson from './pages/Lessons/EditLesson';
 import ViewLesson from './pages/Lessons/ViewLesson.jsx';
 
-
-
-
-
-import { BrowserRouter, Routes, Route } from 'react-router-dom' 
+import { BrowserRouter, Routes, Route } from 'react-router-dom'; 
 import '../index.css';
 
 function App() {
@@ -53,11 +49,16 @@ function App() {
         <Route path="/create-quiz" element={<CreateQuizzes />} />
         <Route path="/quizzes-management" element={<QuizManagement />} />
         <Route path="/quizzes/update/:id" element={<EditQuiz />} />
+        <Route path="/quiz/:lessonId" element={<QuizPage />} />
+
 
         <Route path="/create-lesson" element={<CreateLesson />} />
         <Route path="/lessons-management" element={<LessonManagement />} />
         <Route path="/lessons/update/:id" element={<EditLesson />} />
         <Route path="/view-lesson/:id" element={<ViewLesson />} />
+
+        {/* Route for taking quizzes of a specific lesson */}
+        <Route path="/quiz/:lessonId" element={<Quizzes />} /> {/* This should show quizzes for a specific lesson */}
 
         <Route path="/createCourse" element={<CreateCourse />}/>
         <Route path="/courses/update/:id" element={<UpdateCourse />}/>
@@ -67,5 +68,4 @@ function App() {
   );
 }
 
-
-export default App
+export default App;

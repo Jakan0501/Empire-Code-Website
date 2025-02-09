@@ -4,7 +4,7 @@ import axios from 'axios';
 import CourseForm from './CoursesForm';
 
 const UpdateCourse = () => {
-    const { courseId } = useParams();
+    const { id } = useParams(); // Get course ID from URL
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         courseTitle: '',
@@ -15,26 +15,52 @@ const UpdateCourse = () => {
     const [teachers, setTeachers] = useState([]);
     const [error, setError] = useState(null);
 
+    // Fetch course data
     useEffect(() => {
+        if (!id) {
+            setError("Invalid course ID");
+            return;
+        }
+
         const fetchCourseData = async () => {
             try {
-                const [courseResponse, teachersResponse] = await Promise.all([
-                    axios.get(`http://localhost:8000/api/course/get/${courseId}`),
-                    axios.get('http://localhost:8000/api/teacher/get'),
-                ]);
-                setFormData(courseResponse.data.data);
-                setTeachers(teachersResponse.data.data);
+                const courseResponse = await axios.get(`http://localhost:8000/api/course/get/${id}`);
+                if (courseResponse.data.success) {
+                    setFormData(courseResponse.data.data);
+                } else {
+                    setError('Failed to load course data');
+                }
             } catch (err) {
+                console.error("Error fetching course:", err);
                 setError('Failed to fetch course data');
             }
         };
+
         fetchCourseData();
-    }, [courseId]);
+    }, [id]);
+
+    // Fetch teachers list
+    useEffect(() => {
+        const fetchTeachers = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/api/teacher/get');
+                if (response.data.success && Array.isArray(response.data.data)) {
+                    setTeachers(response.data.data);
+                } else {
+                    setError("Unexpected response structure for teachers");
+                }
+            } catch (err) {
+                setError("Failed to load teachers");
+            }
+        };
+
+        fetchTeachers();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:8000/api/course/update/${courseId}`, formData);
+            await axios.put(`http://localhost:8000/api/course/update/${id}`, formData);
             navigate('/courses');
         } catch (err) {
             const message = err.response ? err.response.data.message : err.message;
@@ -45,10 +71,11 @@ const UpdateCourse = () => {
     return (
         <div className="container">
             <h1>Update Course</h1>
+            {error && <p className="text-danger">{error}</p>}
             <CourseForm
                 formData={formData}
                 setFormData={setFormData}
-                teachers={teachers}
+                teachers={teachers}  // ✅ Ensure teachers list is passed
                 error={error}
                 onSubmit={handleSubmit}
                 mode="update"

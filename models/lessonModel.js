@@ -20,7 +20,8 @@ const lessonSchema = new mongoose.Schema(
     course: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Course",
-    }, // Reference to Course
+      required: true, // Ensure every lesson is linked to a course
+    },
     quizzes: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -28,13 +29,14 @@ const lessonSchema = new mongoose.Schema(
       },
     ],
     lessonPdf: {
-      type: String, // Store only the filename
+      type: String,
     },
   },
   {
-    timestamps: true, // createdAt, updatedAt
+    timestamps: true,
   }
 );
+
 
 const Lesson = mongoose.model("Lesson", lessonSchema);
 
