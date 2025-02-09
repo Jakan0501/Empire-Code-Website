@@ -3,7 +3,6 @@ import bcrypt from "bcryptjs"; // For password hashing
 import jwt from 'jsonwebtoken'; // Import jsonwebtoken
 
 // Define the user schema
-
 const userSchema = new mongoose.Schema(
   {
     userName: {
@@ -20,9 +19,9 @@ const userSchema = new mongoose.Schema(
       unique: true,
     },
     userPhone: {
-      type: Number,
+      type: Number, // Changed back to Number type
     },
-    profilePicture: { // New field for storing profile picture URL
+    profilePicture: { // New field for storing profile picture filename
       type: String,
       default: '', // Default is empty string
     },
@@ -41,7 +40,6 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-
 
 // Middleware to hash the password before saving the user
 userSchema.pre("save", async function (next) {
