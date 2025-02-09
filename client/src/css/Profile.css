@@ -63,3 +63,20 @@ button:disabled {
   background-color: #cccccc; /* Gray color for disabled state */
   cursor: not-allowed; /* Show not-allowed cursor */
 }
+
+
+.user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.user img {
+  width: 120px; /* Adjust size as needed */
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ccc; /* Optional border */
+  margin-bottom: 10px; /* Spacing between image and name */
+}

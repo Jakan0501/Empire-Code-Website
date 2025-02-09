@@ -1,13 +1,18 @@
 import express from 'express';
-import { fetchUsers, registerUser, loginUser, updateUser, deleteUser, getUserProfile } from '../controller/userController.js';
+import { fetchUsers, registerUser, loginUser, updateUser, deleteUser, getUserProfile, uploadProfilePicture, getProfilePicture, uploadMiddleware } from '../controller/userController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
-const route = express.Router();
+const router = express.Router();
 
-route.post("/register", registerUser);
-route.post("/login", loginUser);
-route.get("/getAllUsers", fetchUsers);
-route.put("/update/:id", protect, updateUser); // Ensure this line is included and protected
-route.delete("/delete/:id", protect, deleteUser);
-route.get('/profile', protect, getUserProfile); // Ensure this line is included
-export default route;
+router.post("/register", registerUser);
+router.post("/login", loginUser);
+router.get("/getAllUsers", fetchUsers);
+router.put("/update/:id", protect, updateUser);
+router.delete("/delete/:id", protect, deleteUser);
+router.get('/profile', protect, getUserProfile);
+
+// Profile Picture Upload
+router.post('/upload/:id', protect, uploadMiddleware, uploadProfilePicture);
+router.get('/uploads/:filename', getProfilePicture);
+
+export default router;
