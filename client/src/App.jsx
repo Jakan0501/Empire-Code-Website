@@ -39,9 +39,7 @@ function App() {
       <Navbar /> {/* Add Navbar here */}
       <Sidebar /> {/* Add Sidebar here */}
       <Routes>
-        <Route path="/home" element={<Home />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
+      <Route path="/teacherLogin" element={<TeacherLogin />}></Route>
 
         {/* Protected Routes */}
         <Route
