@@ -42,7 +42,7 @@ const Sidebar = () => {
         <Link to="/courses"><i className="fas fa-graduation-cap"></i><span>Courses</span></Link>
         <Link to="/teachers"><i className="fas fa-chalkboard-user"></i><span>Teachers</span></Link>
         
-        <Link to="/lessons-management"><i className="fas fa-book"></i><span>Lesson</span></Link>
+        <Link to="/lesson-page"><i className="fas fa-book"></i><span>Lesson</span></Link>
 
         <Link to="/contact"><i className="fas fa-headset"></i><span>Contact Us</span></Link>
       </nav>

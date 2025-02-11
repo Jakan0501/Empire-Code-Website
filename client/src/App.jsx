@@ -31,6 +31,7 @@ import ViewLesson from "./pages/Lessons/ViewLesson.jsx";
 import ProtectedRoute from "./components/ProtectedRoute"; // Import ProtectedRoute
 
 import TeacherLogin from "./teacherLogin.jsx";
+import LessonPage from "./pages/Lessons/LessonPage.jsx";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "../index.css";
@@ -43,31 +44,128 @@ function App() {
       <Navbar /> {/* Add Navbar here */}
       <Sidebar /> {/* Add Sidebar here */}
       <Routes>
-        <Route path="/home" element={<Home />}></Route>
-        <Route path="/register" element={<Register />}></Route>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="/teacherLogin" element={<TeacherLogin />}></Route>
-        <Route path="/courses" element={<Courses />}></Route>
-        <Route path="/profile" element={<Profile />}></Route>
-        <Route path="/quizzes" element={<Quizzes />}></Route>
 
-        <Route path="/create-quiz" element={<CreateQuizzes />} />
-        <Route path="/quizzes-management" element={<QuizManagement />} />
-        <Route path="/quizzes/update/:id" element={<EditQuiz />} />
-        <Route path="/quiz/:lessonId" element={<QuizPage />} />
+      <Route path="/teacherLogin" element={<TeacherLogin />}></Route>
+      <Route path="/register" element={<Register />}></Route>
+      <Route path="/login" element={<Login />}></Route>
+      <Route path="/home" element={<Home />}></Route>
+      
+        {/* Protected Routes */}
+        <Route
+          path="/courses"
+          element={
+            <ProtectedRoute>
+              <Courses />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/quizzes"
+          element={
+            <ProtectedRoute>
+              <Quizzes />
+            </ProtectedRoute>
+          }
+        />
 
+        <Route
+          path="/create-quiz"
+          element={
+            <ProtectedRoute>
+              <CreateQuizzes />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/quizzes-management"
+          element={
+            <ProtectedRoute>
+              <QuizManagement />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/quizzes/update/:id"
+          element={
+            <ProtectedRoute>
+              <EditQuiz />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/quiz/:lessonId"
+          element={
+            <ProtectedRoute>
+              <QuizPage />
+            </ProtectedRoute>
+          }
+        />
 
-        <Route path="/create-lesson" element={<CreateLesson />} />
-        <Route path="/lessons-management" element={<LessonManagement />} />
-        <Route path="/lessons/update/:id" element={<EditLesson />} />
-        <Route path="/view-lesson/:id" element={<ViewLesson />} />
+        <Route
+          path="/create-lesson"
+          element={
+            <ProtectedRoute>
+              <CreateLesson />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/lessons-management"
+          element={
+            <ProtectedRoute>
+              <LessonManagement />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/lessons/update/:id"
+          element={
+            <ProtectedRoute>
+              <EditLesson />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/view-lesson/:id"
+          element={
+            <ProtectedRoute>
+              <ViewLesson />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/lesson-page"
+          element={
+            <ProtectedRoute>
+              <LessonPage />
+            </ProtectedRoute>
+          }
+        />
 
-        {/* Route for taking quizzes of a specific lesson */}
-        <Route path="/quiz/:lessonId" element={<Quizzes />} /> {/* This should show quizzes for a specific lesson */}
-
-        <Route path="/createCourse" element={<CreateCourse />}/>
-        <Route path="/courses/update/:id" element={<UpdateCourse />}/>
-        <Route path="/viewCourse/:id" element={<UpdateCourse />}/>
+        <Route
+          path="/createCourse"
+          element={
+            <ProtectedRoute>
+              <CreateCourse />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/courses/update/:id"
+          element={
+            <ProtectedRoute>
+              <UpdateCourse />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
