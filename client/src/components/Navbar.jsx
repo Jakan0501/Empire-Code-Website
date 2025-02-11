@@ -1,43 +1,70 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
 
-const Navbar = ({ toggleSidebar }) => {
-  // State to manage the visibility of profile options
+const Navbar = () => {
   const [showProfileOptions, setShowProfileOptions] = useState(false);
+  const profileOptionsRef = useRef(null);
 
-  // Function to toggle profile options
   const toggleProfileOptions = () => {
     setShowProfileOptions((prev) => !prev);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        profileOptionsRef.current &&
+        !profileOptionsRef.current.contains(event.target)
+      ) {
+        setShowProfileOptions(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <header className="header">
-      <section className="flex">
-      <a href="/home" className="logo">Empire Code</a>
-        <form action="search.html" method="post" className="search-form">
-          <input 
-            type="text" 
-            name="search_box" 
-            required 
-            placeholder="search courses..." 
-            maxLength="100" 
+    <header className="navbar-header">
+      <section className="navbar-container">
+        <a href="/home" className="navbar-logo">
+          Empire Code
+        </a>
+        <form action="search.html" method="post" className="navbar-search-form">
+          <input
+            type="text"
+            name="search_box"
+            required
+            placeholder="Search courses..."
+            maxLength="100"
+            className="navbar-search-input"
           />
-          <button type="submit" className="fas fa-search"></button>
+          <button type="submit" className="navbar-search-button">
+            <i className="fas fa-search"></i>
+          </button>
         </form>
-        <div className="icons">
-          <div id="menu-btn" className="fas fa-bars" onClick={toggleSidebar}></div>
-          <div id="search-btn" className="fas fa-search"></div>
-          <div id="user-btn" className="fas fa-user" onClick={toggleProfileOptions}></div>
+
+        <div className="navbar-icons">
+          <div className="navbar-user-container" onClick={toggleProfileOptions}>
+            <i className="fas fa-user"></i>
+          </div>
         </div>
 
-        {/* Conditionally render profile options */}
         {showProfileOptions && (
-          <div className="profile-options">
-            <Link to="/profile" className="btn">View Profile</Link>
-            <div className="flex-btn">
-              <Link to="/login" className="btn">Login</Link>
-              <Link to="/register" className="btn">Register</Link>
+          <div className="navbar-profile-options" ref={profileOptionsRef}>
+            <Link to="/profile" className="navbar-btn">
+              View Profile
+            </Link>
+            <div className="navbar-flex-btn">
+              <Link to="/login" className="navbar-btn">
+                Login
+              </Link>
+              <Link to="/register" className="navbar-btn">
+                Register
+              </Link>
             </div>
           </div>
         )}

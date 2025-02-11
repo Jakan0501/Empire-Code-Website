@@ -1,35 +1,37 @@
-import { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-import Home from './Home.jsx'
-import Login from './Login.jsx'
-import TeacherLogin from './teacherLogin.jsx'
-import Register from './Register.jsx'
-import Courses from './pages/Courses/Courses.jsx'
-import Profile from './Profile.jsx'
-import Quizzes from './pages/Quizzes/Quizzes.jsx'
+import Home from "./Home.jsx";
+import Login from "./Login.jsx";
+import Register from "./Register.jsx";
+import Courses from "./pages/Courses/Courses.jsx";
+import Profile from "./Profile.jsx";
+import Quizzes from "./pages/Quizzes/Quizzes.jsx";
 
 import CreateCourse from './pages/Courses/CreateCourses.jsx';
 import UpdateCourse from './pages/Courses/EditCourses.jsx'
-import ViewCourse from './pages/Courses/ViewCourse.jsx'
 
-import Navbar from './components/Navbar'; // Adjust the path as necessary
-import Sidebar from './components/Sidebar.jsx';
+import Navbar from "./components/Navbar"; // Adjust the path as necessary
+import Sidebar from "./components/Sidebar.jsx";
 
 // Importing Quiz CRUDS:
-import CreateQuizzes from './pages/Quizzes/Create_Quizzes.jsx';
-import QuizManagement from './pages/Quizzes/QuizManagement'; 
-import EditQuiz from './pages/Quizzes/EditQuiz'; 
-import QuizPage from './pages/Quizzes/QuizPage';
+import CreateQuizzes from "./pages/Quizzes/Create_Quizzes.jsx";
+import QuizManagement from "./pages/Quizzes/QuizManagement";
+import EditQuiz from "./pages/Quizzes/EditQuiz";
+import QuizPage from "./pages/Quizzes/QuizPage";
 
 // Importing Lesson CRUDS:
-import CreateLesson from './pages/Lessons/CreateLesson';
-import LessonManagement from './pages/Lessons/LessonManagement';
-import EditLesson from './pages/Lessons/EditLesson';
-import ViewLesson from './pages/Lessons/ViewLesson.jsx';
+import CreateLesson from "./pages/Lessons/CreateLesson";
+import LessonManagement from "./pages/Lessons/LessonManagement";
+import EditLesson from "./pages/Lessons/EditLesson";
+import ViewLesson from "./pages/Lessons/ViewLesson.jsx";
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom'; 
-import '../index.css';
+import ProtectedRoute from "./components/ProtectedRoute"; // Import ProtectedRoute
+
+import TeacherLogin from "./teacherLogin.jsx";
+
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "../index.css";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -63,7 +65,6 @@ function App() {
 
         <Route path="/createCourse" element={<CreateCourse />}/>
         <Route path="/courses/update/:id" element={<UpdateCourse />}/>
-        <Route path="/viewCourse/:id" element={<ViewCourse />}/>
 
       </Routes>
     </BrowserRouter>

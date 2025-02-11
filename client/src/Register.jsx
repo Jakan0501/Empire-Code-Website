@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './css/Register.css';
 
 function Register() {
     const [userEmail, setEmail] = useState('');
@@ -89,7 +90,7 @@ function Register() {
                 <div className="register-link">
                     Have an account? <Link to="/login">Login now</Link>
                 </div>
-                <input type="submit" value="Register now" className="btn" />
+                <input type="submit" value="Register now" className="btnRegister" />
             </form>
         </section>
     );
