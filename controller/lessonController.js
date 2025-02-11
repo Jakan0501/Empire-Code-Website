@@ -1,4 +1,5 @@
 import Lesson from '../models/lessonModel.js';
+import Course from '../models/courseModel.js';
 import mongoose from 'mongoose';
 import multer from 'multer';
 import path from 'path';
@@ -53,6 +54,12 @@ export const createLesson = async (req, res) => {
             });
 
             await newLesson.save();
+
+            // Update the course to include the new lesson
+            await Course.findByIdAndUpdate(course, {
+                $push: { lessons: newLesson._id } // Push the lesson ID into the lessons array
+            });
+
             res.status(201).json({ success: true, data: newLesson });
         } catch (error) {
             console.error('Error creating lesson:', error.message);
@@ -60,6 +67,7 @@ export const createLesson = async (req, res) => {
         }
     });
 };
+
 
 
 // Get lesson by ID
@@ -179,3 +187,26 @@ export const deleteLesson = async (req, res) => {
         res.status(500).json({ success: false, message: 'Server Error' });
     }
 };
+
+
+
+
+export const getLessonsByCourse = async (req, res) => {
+    try {
+        const { id } = req.params; // Course ID
+
+        // Find the course and populate the lessons
+        const course = await Course.findById(id).populate('lessons');
+
+        if (!course) {
+            return res.status(404).json({ success: false, message: 'Course not found' });
+        }
+
+        res.status(200).json({ success: true, data: course.lessons });
+    } catch (error) {
+        console.error('Error fetching lessons by course:', error.message);
+        res.status(500).json({ success: false, message: 'Server Error' });
+    }
+};
+
+

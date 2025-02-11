@@ -58,7 +58,7 @@ const ViewLesson = () => {
   return (
     <div>
       <h1>{lesson.lessonTitle}</h1>
-      <p>{lesson.lessonContent}</p>
+      
 
       {pdfUrl ? (
         <iframe

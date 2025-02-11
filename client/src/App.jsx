@@ -1,4 +1,5 @@
-import { useState } from "react";
+// App.js
+import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import Home from "./Home.jsx";
@@ -9,11 +10,11 @@ import Profile from "./Profile.jsx";
 import Quizzes from "./pages/Quizzes/Quizzes.jsx";
 
 import CreateCourse from './pages/Courses/CreateCourses.jsx';
-import UpdateCourse from './pages/Courses/EditCourses.jsx'
-import ViewCourse from './pages/Courses/ViewCourse.jsx'
+import UpdateCourse from './pages/Courses/EditCourses.jsx';
+import ViewCourse from './pages/Courses/ViewCourse.jsx';
+import CoursePage from './pages/Courses/CoursePage.jsx';
 
-
-import Navbar from "./components/Navbar"; // Adjust the path as necessary
+import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar.jsx";
 
 // Importing Quiz CRUDS:
@@ -28,28 +29,47 @@ import LessonManagement from "./pages/Lessons/LessonManagement";
 import EditLesson from "./pages/Lessons/EditLesson";
 import ViewLesson from "./pages/Lessons/ViewLesson.jsx";
 
-import ProtectedRoute from "./components/ProtectedRoute"; // Import ProtectedRoute
+import ProtectedRoute from "./components/ProtectedRoute";
 
 import TeacherLogin from "./teacherLogin.jsx";
 import LessonPage from "./pages/Lessons/LessonPage.jsx";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "../index.css";
+import axios from "axios";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    const fetchUserName = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      try {
+        const response = await axios.get("http://localhost:8000/api/user/profile", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const userData = response.data;
+        setUserName(userData.userName);
+      } catch (error) {
+        console.error("Error fetching user name:", error);
+      }
+    };
+
+    fetchUserName();
+  }, []);
 
   return (
     <BrowserRouter>
-      <Navbar /> {/* Add Navbar here */}
-      <Sidebar /> {/* Add Sidebar here */}
+      <Navbar />
+      <Sidebar userName={userName} />
       <Routes>
+        <Route path="/teacherLogin" element={<TeacherLogin />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/home" element={<Home />} />
 
-      <Route path="/teacherLogin" element={<TeacherLogin />}></Route>
-      <Route path="/register" element={<Register />}></Route>
-      <Route path="/login" element={<Login />}></Route>
-      <Route path="/home" element={<Home />}></Route>
-      
         {/* Protected Routes */}
         <Route
           path="/courses"
@@ -75,7 +95,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/create-quiz"
           element={
@@ -108,7 +127,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/create-lesson"
           element={
@@ -149,7 +167,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/createCourse"
           element={
@@ -170,7 +187,15 @@ function App() {
           path="/viewCourse/:id"
           element={
             <ProtectedRoute>
-              <UpdateCourse />
+              <ViewCourse />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/course-page"
+          element={
+            <ProtectedRoute>
+              <CoursePage />
             </ProtectedRoute>
           }
         />

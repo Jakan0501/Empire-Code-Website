@@ -1,17 +1,16 @@
 import Course from '../models/courseModel.js'
 import mongoose from 'mongoose'
 
-
 export const getCourses = async(req, res) => {
-
     try {
-        const courses = await Course.find({})
+        const courses = await Course.find({}).populate('teacher');
         res.status(200).json({ success: true, data: courses })
     } catch (error) {
         console.log('error in fetching courses:', error.message)
         res.status(500).json({success: false, message:'Server Error'})
     }
 }
+
 
 export const createCourse = async (req, res) => {
     let course = req.body;
@@ -35,7 +34,6 @@ export const createCourse = async (req, res) => {
         res.status(500).json({ success: false, message: 'Server Error' });
     }
 };
-
 
 export const updateCourse = async(req, res) => {
     const{id} = req.params;

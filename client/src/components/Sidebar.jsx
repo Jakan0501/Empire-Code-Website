@@ -1,13 +1,14 @@
+// Sidebar.jsx
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "./Sidebar.css";
 
-const Sidebar = () => {
+const Sidebar = ({ userName }) => {
   const [profilePicture, setProfilePicture] = useState("");
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
+    const fetchProfilePicture = async () => {
       const token = localStorage.getItem("token");
       if (!token) return;
 
@@ -22,7 +23,7 @@ const Sidebar = () => {
       }
     };
 
-    fetchUserProfile();
+    fetchProfilePicture();
   }, []);
 
   return (
@@ -33,17 +34,15 @@ const Sidebar = () => {
           className="image"
           alt="Profile"
         />
-        <h3 className="name">User Name</h3>
+        <h3 className="name">{userName}</h3>
         <p className="role">Student</p>
         <Link to="/profile" className="btn">View Profile</Link>
       </div>
       <nav className="navbar">
         <Link to="/home"><i className="fas fa-home"></i><span>Home</span></Link>
-        <Link to="/courses"><i className="fas fa-graduation-cap"></i><span>Courses</span></Link>
+        <Link to="/course-page"><i className="fas fa-graduation-cap"></i><span>Courses</span></Link>
         <Link to="/teachers"><i className="fas fa-chalkboard-user"></i><span>Teachers</span></Link>
-        
         <Link to="/lesson-page"><i className="fas fa-book"></i><span>Lesson</span></Link>
-
         <Link to="/contact"><i className="fas fa-headset"></i><span>Contact Us</span></Link>
       </nav>
     </div>

@@ -307,5 +307,33 @@ button:hover {
   color: #555;
 }
 
+.box {
+  position: relative;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin: 10px;
+  height: 300px;
+}
+
+.box h2a {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  margin: 0;
+}
+
+.box p {
+  margin-top: 60px;
+}
+
+.teacher-name {
+  font-size: 2rem;
+}
+
+
+
+
+
 
   
