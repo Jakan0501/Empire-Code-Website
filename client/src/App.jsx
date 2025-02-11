@@ -141,6 +141,14 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/lesson-page"
+          element={
+            <ProtectedRoute>
+              <LessonPage />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/createCourse"
