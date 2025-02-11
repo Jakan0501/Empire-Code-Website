@@ -8,8 +8,10 @@ import Courses from "./pages/Courses/Courses.jsx";
 import Profile from "./Profile.jsx";
 import Quizzes from "./pages/Quizzes/Quizzes.jsx";
 
-import CreateCourse from "./pages/Courses/CreateCourses.jsx";
-import UpdateCourse from "./pages/Courses/EditCourses.jsx";
+import CreateCourse from './pages/Courses/CreateCourses.jsx';
+import UpdateCourse from './pages/Courses/EditCourses.jsx'
+import ViewCourse from './pages/Courses/ViewCourse.jsx'
+
 
 import Navbar from "./components/Navbar"; // Adjust the path as necessary
 import Sidebar from "./components/Sidebar.jsx";
@@ -42,11 +44,12 @@ function App() {
       <Navbar /> {/* Add Navbar here */}
       <Sidebar /> {/* Add Sidebar here */}
       <Routes>
-        <Route path="/teacherLogin" element={<TeacherLogin />}></Route>
-        <Route path="/register" element={<Register />}></Route>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="/home" element={<Home />}></Route>
 
+      <Route path="/teacherLogin" element={<TeacherLogin />}></Route>
+      <Route path="/register" element={<Register />}></Route>
+      <Route path="/login" element={<Login />}></Route>
+      <Route path="/home" element={<Home />}></Route>
+      
         {/* Protected Routes */}
         <Route
           path="/courses"
@@ -152,15 +155,6 @@ function App() {
           element={
             <ProtectedRoute>
               <UpdateCourse />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/lesson-page"
-          element={
-            <ProtectedRoute>
-              <LessonPage />
             </ProtectedRoute>
           }
         />

@@ -122,7 +122,9 @@ const Courses = () => {
                         <h3 className="title">{course.courseTitle}</h3>
                         <p>{course.courseDescription}</p>
                         <div className="button-group">
-                            <button className="view-btn">View</button>
+                            <button onClick={() => navigate(`/viewCourse/${course._id}`)} className="view-btn">
+                                View
+                            </button>
                             <button onClick={() => navigate(`/courses/update/${course._id}`)} className="update-btn">
                                 Update
                             </button>

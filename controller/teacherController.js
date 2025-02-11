@@ -62,6 +62,25 @@ export const deleteTeacher = async(req, res) =>{
     }
 }
 
+export const getTeacherById = async (req, res) => {
+    const {id} = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ success: false, message: 'Invalid Teacher Id' });
+    }
+
+    try {
+        const teacher = await Teacher.findById(id);
+        if (!teacher) {
+            return res.status(404).json({ success: false, message: 'Teacher not found' });
+        }
+        res.status(200).json({ success: true, data: teacher });
+    } catch (error) {
+        console.log('Error fetching teacher:', error.message);
+        res.status(500).json({ success: false, message: 'Server Error' });
+    }
+};
+
 export const loginTeacher = async (req, res) => {
     const { teacherEmail, teacherPassword } = req.body;
 
