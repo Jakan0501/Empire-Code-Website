@@ -11,6 +11,7 @@ import Quizzes from './pages/Quizzes/Quizzes.jsx'
 
 import CreateCourse from './pages/Courses/CreateCourses.jsx';
 import UpdateCourse from './pages/Courses/EditCourses.jsx'
+import ViewCourse from './pages/Courses/ViewCourse.jsx'
 
 import Navbar from './components/Navbar'; // Adjust the path as necessary
 import Sidebar from './components/Sidebar.jsx';
@@ -62,6 +63,7 @@ function App() {
 
         <Route path="/createCourse" element={<CreateCourse />}/>
         <Route path="/courses/update/:id" element={<UpdateCourse />}/>
+        <Route path="/viewCourse/:id" element={<ViewCourse />}/>
 
       </Routes>
     </BrowserRouter>
