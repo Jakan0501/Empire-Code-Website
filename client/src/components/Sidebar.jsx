@@ -40,7 +40,7 @@ const Sidebar = () => {
       <nav className="navbar">
         <Link to="/home"><i className="fas fa-home"></i><span>Home</span></Link>
         <Link to="/courses"><i className="fas fa-graduation-cap"></i><span>Courses</span></Link>
-        <Link to="/teachers"><i className="fas fa-chalkboard-user"></i><span>Teachers</span></Link>
+        <Link to="/Teachers"><i className="fas fa-chalkboard-user"></i><span>Teachers</span></Link>
         
         <Link to="/lesson-page"><i className="fas fa-book"></i><span>Lesson</span></Link>
 
