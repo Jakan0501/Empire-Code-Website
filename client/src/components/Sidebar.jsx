@@ -40,14 +40,11 @@ const Sidebar = ({ userName }) => {
       </div>
       <nav className="navbar">
         <Link to="/home"><i className="fas fa-home"></i><span>Home</span></Link>
-<<<<<<< HEAD
         <Link to="/course-page"><i className="fas fa-graduation-cap"></i><span>Courses</span></Link>
         <Link to="/teachers"><i className="fas fa-chalkboard-user"></i><span>Teachers</span></Link>
-=======
-        <Link to="/courses"><i className="fas fa-graduation-cap"></i><span>Courses</span></Link>
-        <Link to="/Teachers"><i className="fas fa-chalkboard-user"></i><span>Teachers</span></Link>
+        <Link to="/course-page"><i className="fas fa-graduation-cap"></i><span>Courses</span></Link>
         
->>>>>>> 2a0181deb35d589a99673a441aa4fe67fa4335b4
+        
         <Link to="/lesson-page"><i className="fas fa-book"></i><span>Lesson</span></Link>
         <Link to="/contact"><i className="fas fa-headset"></i><span>Contact Us</span></Link>
       </nav>

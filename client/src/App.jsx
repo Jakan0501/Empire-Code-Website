@@ -1,4 +1,3 @@
-// App.js
 import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -37,7 +36,6 @@ import TeacherPage from "./pages/Teachers/Teachers.jsx";
 import CreateTeacher from "./pages/Teachers/createTeacher.jsx";
 import UpdateTeacher from "./pages/Teachers/updateTeacher.jsx";
 import ViewTeacher from "./pages/Teachers/viewTeacher.jsx";
-
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "../index.css";
@@ -197,12 +195,14 @@ function App() {
           }
         />
         <Route
-<<<<<<< HEAD
           path="/course-page"
           element={
             <ProtectedRoute>
               <CoursePage />
-=======
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/Teachers"
           element={
             <ProtectedRoute>
@@ -225,13 +225,12 @@ function App() {
               <UpdateTeacher />
             </ProtectedRoute>
           }
-          />
-          <Route
+        />
+        <Route
           path="/viewTeacher/:id"
           element={
             <ProtectedRoute>
               <ViewTeacher />
->>>>>>> 2a0181deb35d589a99673a441aa4fe67fa4335b4
             </ProtectedRoute>
           }
         />
