@@ -74,7 +74,7 @@ const QuizPage = () => {
       </form>
       {submitted && (
         <div className="results">
-          <h2>Results</h2>
+          <h2a>Results</h2a>
           {questions.map((q, index) => (
             <div key={index} className="result">
               <h3>{q.quizQuestion}</h3>

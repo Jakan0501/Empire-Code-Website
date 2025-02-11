@@ -29,6 +29,7 @@ import ViewLesson from "./pages/Lessons/ViewLesson.jsx";
 import ProtectedRoute from "./components/ProtectedRoute"; // Import ProtectedRoute
 
 import TeacherLogin from "./teacherLogin.jsx";
+import LessonPage from "./pages/Lessons/LessonPage.jsx";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "../index.css";
@@ -41,12 +42,11 @@ function App() {
       <Navbar /> {/* Add Navbar here */}
       <Sidebar /> {/* Add Sidebar here */}
       <Routes>
+        <Route path="/teacherLogin" element={<TeacherLogin />}></Route>
+        <Route path="/register" element={<Register />}></Route>
+        <Route path="/login" element={<Login />}></Route>
+        <Route path="/home" element={<Home />}></Route>
 
-      <Route path="/teacherLogin" element={<TeacherLogin />}></Route>
-      <Route path="/register" element={<Register />}></Route>
-      <Route path="/login" element={<Login />}></Route>
-      <Route path="/home" element={<Home />}></Route>
-      
         {/* Protected Routes */}
         <Route
           path="/courses"
@@ -152,6 +152,15 @@ function App() {
           element={
             <ProtectedRoute>
               <UpdateCourse />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/lesson-page"
+          element={
+            <ProtectedRoute>
+              <LessonPage />
             </ProtectedRoute>
           }
         />
