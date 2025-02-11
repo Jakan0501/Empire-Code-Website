@@ -78,11 +78,12 @@ const LoginForm = () => {
         <div className="register-link">
           You are a teacher? <Link to="/teacherLogin">Click here</Link>
         </div>
-      </form>
-      
-      <div className="register-link1">
+        <div className="register-link">
         Don't have an account? <Link to="/register">Register now</Link>
       </div>
+      </form>
+      
+      
     </div>
   );
 };

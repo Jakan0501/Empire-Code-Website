@@ -28,11 +28,16 @@ import CreateLesson from "./pages/Lessons/CreateLesson";
 import LessonManagement from "./pages/Lessons/LessonManagement";
 import EditLesson from "./pages/Lessons/EditLesson";
 import ViewLesson from "./pages/Lessons/ViewLesson.jsx";
+import LessonPage from "./pages/Lessons/LessonPage.jsx";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import TeacherLogin from "./teacherLogin.jsx";
-import LessonPage from "./pages/Lessons/LessonPage.jsx";
+import TeacherPage from "./pages/Teachers/Teachers.jsx";
+import CreateTeacher from "./pages/Teachers/createTeacher.jsx";
+import UpdateTeacher from "./pages/Teachers/updateTeacher.jsx";
+import ViewTeacher from "./pages/Teachers/viewTeacher.jsx";
+
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "../index.css";
@@ -192,10 +197,41 @@ function App() {
           }
         />
         <Route
+<<<<<<< HEAD
           path="/course-page"
           element={
             <ProtectedRoute>
               <CoursePage />
+=======
+          path="/Teachers"
+          element={
+            <ProtectedRoute>
+              <TeacherPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/createteacher"
+          element={
+            <ProtectedRoute>
+              <CreateTeacher />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/teacher/update/:id"
+          element={
+            <ProtectedRoute>
+              <UpdateTeacher />
+            </ProtectedRoute>
+          }
+          />
+          <Route
+          path="/viewTeacher/:id"
+          element={
+            <ProtectedRoute>
+              <ViewTeacher />
+>>>>>>> 2a0181deb35d589a99673a441aa4fe67fa4335b4
             </ProtectedRoute>
           }
         />
