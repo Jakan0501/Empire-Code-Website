@@ -166,6 +166,14 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/viewCourse/:id"
+          element={
+            <ProtectedRoute>
+              <UpdateCourse />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
