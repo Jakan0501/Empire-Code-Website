@@ -1,0 +1,53 @@
+/* General container */
+.teachers-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+  padding: 30px;
+}
+
+/* Teacher card */
+.teacher-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  padding: 30px;
+  width: 350px;
+  text-align: center;
+  transition: transform 0.3s ease-in-out;
+}
+
+.teacher-card:hover {
+  transform: translateY(-8px);
+}
+
+/* Teacher name */
+.teacher-name {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+/* Contact details */
+.teacher-email, .teacher-phone {
+  font-size: 1.4rem;
+  color: #555;
+  margin: 8px 0;
+}
+
+/* Error message */
+.error-message {
+  font-size: 1.5rem;
+  color: red;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Page title */
+h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
