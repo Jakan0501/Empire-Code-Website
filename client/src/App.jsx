@@ -1,4 +1,3 @@
-// App.js
 import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -9,10 +8,10 @@ import Courses from "./pages/Courses/Courses.jsx";
 import Profile from "./Profile.jsx";
 import Quizzes from "./pages/Quizzes/Quizzes.jsx";
 
-import CreateCourse from './pages/Courses/CreateCourses.jsx';
-import UpdateCourse from './pages/Courses/EditCourses.jsx';
-import ViewCourse from './pages/Courses/ViewCourse.jsx';
-import CoursePage from './pages/Courses/CoursePage.jsx';
+import CreateCourse from "./pages/Courses/CreateCourses.jsx";
+import UpdateCourse from "./pages/Courses/EditCourses.jsx";
+import ViewCourse from "./pages/Courses/ViewCourse.jsx";
+import CoursePage from "./pages/Courses/CoursePage.jsx";
 
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar.jsx";
@@ -37,7 +36,8 @@ import TeacherPage from "./pages/Teachers/Teachers.jsx";
 import CreateTeacher from "./pages/Teachers/createTeacher.jsx";
 import UpdateTeacher from "./pages/Teachers/updateTeacher.jsx";
 import ViewTeacher from "./pages/Teachers/viewTeacher.jsx";
-
+import AllTeachers from "./pages/Teachers/AllTeachers.jsx";
+import TeacherControl from "./pages/Teachers/TeacherControl.jsx";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "../index.css";
@@ -52,9 +52,12 @@ function App() {
       if (!token) return;
 
       try {
-        const response = await axios.get("http://localhost:8000/api/user/profile", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          "http://localhost:8000/api/user/profile",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         const userData = response.data;
         setUserName(userData.userName);
       } catch (error) {
@@ -77,10 +80,18 @@ function App() {
 
         {/* Protected Routes */}
         <Route
-          path="/courses"
+          path="/course-page"
           element={
             <ProtectedRoute>
-              <Courses />
+              <CoursePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/lesson-page"
+          element={
+            <ProtectedRoute>
+              <LessonPage />
             </ProtectedRoute>
           }
         />
@@ -164,14 +175,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/lesson-page"
-          element={
-            <ProtectedRoute>
-              <LessonPage />
-            </ProtectedRoute>
-          }
-        />
+
         <Route
           path="/createCourse"
           element={
@@ -193,6 +197,14 @@ function App() {
           element={
             <ProtectedRoute>
               <ViewCourse />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/course-page"
+          element={
+            <ProtectedRoute>
+              <CoursePage />
             </ProtectedRoute>
           }
         />
@@ -219,12 +231,37 @@ function App() {
               <UpdateTeacher />
             </ProtectedRoute>
           }
-          />
-          <Route
+        />
+        <Route
           path="/viewTeacher/:id"
           element={
             <ProtectedRoute>
               <ViewTeacher />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/all-teachers"
+          element={
+            <ProtectedRoute>
+              <AllTeachers />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/courses"
+          element={
+            <ProtectedRoute>
+              <Courses />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/teacher-control"
+          element={
+            <ProtectedRoute>
+              <TeacherControl />
             </ProtectedRoute>
           }
         />

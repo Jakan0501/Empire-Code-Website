@@ -66,9 +66,9 @@ const ViewCourse = () => {
                 mode="view"
             />
             
-            <h2 className="mt-4">Lessons</h2>
+            <h2 className="mt-4"></h2>
             {lessons.length === 0 ? (
-                <p>No lessons available for this course.</p>
+                <p></p>
             ) : (
                 <ul className="list-group">
                     {lessons.map((lesson) => (

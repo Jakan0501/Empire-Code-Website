@@ -17,10 +17,10 @@ const TeacherLogin = () => {
                 if (result.data.success) {
                     console.log("Login successful:", result);
                     setMessage('Login successful!');
-                    // Store the token in localStorage or sessionStorage
+                    // Store the token in localStorage
                     localStorage.setItem('token', result.data.token);
-                    // Redirect to another page
-                    navigate('/teacher/home');
+                    // Redirect to Teacher Control page
+                    navigate('/teacher-control');
                 } else {
                     setMessage(result.data.message);
                 }
@@ -29,7 +29,7 @@ const TeacherLogin = () => {
                 console.error("Login error:", err.response ? err.response.data : err.message);
                 setMessage('Login failed. Please check your credentials and try again.');
             });
-    }
+    };
 
     return (
         <section className="form-container">
@@ -58,7 +58,7 @@ const TeacherLogin = () => {
                 />
                 <input type="submit" value="Login Now" name="submit" className="btn" />
                 <div className="register-link">
-                    Contact admin if you can not login.
+                    Contact admin if you cannot log in.
                 </div>
                 <div className="register-link">
                     You are a student? <Link to='/login'>Click here</Link>
