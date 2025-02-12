@@ -197,12 +197,6 @@ function App() {
           }
         />
         <Route
-<<<<<<< HEAD
-          path="/course-page"
-          element={
-            <ProtectedRoute>
-              <CoursePage />
-=======
           path="/Teachers"
           element={
             <ProtectedRoute>
@@ -231,7 +225,6 @@ function App() {
           element={
             <ProtectedRoute>
               <ViewTeacher />
->>>>>>> 2a0181deb35d589a99673a441aa4fe67fa4335b4
             </ProtectedRoute>
           }
         />
