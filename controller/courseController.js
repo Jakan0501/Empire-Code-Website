@@ -82,3 +82,23 @@ export const getCourseById = async (req, res) => {
         res.status(500).json({ success: false, message: 'Server Error' });
     }
 };
+
+// In your courseController.js or a similar file
+export const searchCourses = async (req, res) => {
+    const { query } = req.query;
+    try {
+      const courses = await Course.find({
+        title: { $regex: query, $options: "i" }, // Case-insensitive search
+      });
+  
+      if (!courses.length) {
+        return res.status(404).json({ success: false, message: "No courses found" });
+      }
+  
+      res.status(200).json({ success: true, data: courses });
+    } catch (error) {
+      console.error("Error in searching courses:", error.message);
+      res.status(500).json({ success: false, message: "Server Error" });
+    }
+  };
+  
